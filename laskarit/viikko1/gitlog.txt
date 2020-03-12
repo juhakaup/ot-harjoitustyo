@@ -1,0 +1,95 @@
+commit 073fff963f21cbffbcb88a4e7901df290e804350
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:50:49 2020 +0200
+
+    muutosten harjoittelua
+
+ tiedostoja/file2              | 0
+ tiedostoja/{file1, => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit d0da55b276dbc14ed103b5458c8d3f51a508f17f
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:36:19 2020 +0200
+
+    lisätty filet
+
+ tiedostoja/file1, | 0
+ tiedostoja/file2  | 0
+ tiedostoja/file3  | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 1ac49cac5c25f7dd53d00b9d0654d2ba07980d05
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:28:40 2020 +0200
+
+    muunnoksii
+
+ eka.txt    | 7 ++++++-
+ kolmas.txt | 1 +
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+commit b8159fc695d65e08b40a16db5ea567e63bca310e
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:26:13 2020 +0200
+
+    nimenmuunnos
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit bc775e4057079df13986126a996d0cface58af26
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:22:14 2020 +0200
+
+    modaus
+
+ tiedosto.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 51abdab4e1871940fe464936d7fa7ca4956b4815
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:20:50 2020 +0200
+
+    added text
+
+ tiedosto.txt | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+commit 89591f56359797ae3b7bf3c50e32894d0d6a0a57
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:11:46 2020 +0200
+
+    added stuff
+
+ stuff/more.stuff | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 19bcf35bf2e789c3da123cb830f4e2762d5aa99a
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:10:44 2020 +0200
+
+    lisätty kolmas
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 92e157f0367dd06e90243d2a0b594efadf1e34eb
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:06:50 2020 +0200
+
+    muuto ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit fa1eb7c3bf382278504ac813468a197503627782
+Author: Juha Kauppinen <juha.kauppinen@helsinki.fi>
+Date:   Thu Mar 12 18:04:09 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
