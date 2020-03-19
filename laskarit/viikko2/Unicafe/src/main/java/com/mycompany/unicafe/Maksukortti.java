@@ -6,24 +6,32 @@ public class Maksukortti {
     private int saldo;
  
     public Maksukortti(int saldo) {
-        this.saldo = saldo;
+        this.saldo = konvertoiSenteiksi(saldo);
     }
  
     public int saldo() {
-        return saldo;
+        return konvertoiEuroiksi(saldo);
     }
  
     public void lataaRahaa(int lisays) {
-        this.saldo += lisays;
+        this.saldo += konvertoiSenteiksi(lisays);
     }
  
     public boolean otaRahaa(int maara) {
-        if (this.saldo < maara) {
+        if (this.saldo < konvertoiSenteiksi(maara)) {
             return false;
         }
  
-        this.saldo = this.saldo - maara;
+        this.saldo = this.saldo - konvertoiSenteiksi(maara);
         return true;
+    }
+    
+    private int konvertoiSenteiksi(int arvo) {
+        return arvo * 100;
+    }
+    
+    private int konvertoiEuroiksi(int arvo) {
+        return arvo / 100;
     }
 
     @Override
