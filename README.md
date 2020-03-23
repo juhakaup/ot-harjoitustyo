@@ -1,5 +1,4 @@
 # Ohjelmistotekniikka 2020
-*Harjoitustyö*
 
 Tämä on *ohjelmistotekniikan* kevään _2020_ harjoitustyö.
 
@@ -18,3 +17,9 @@ Tämä on *ohjelmistotekniikan* kevään _2020_ harjoitustyö.
   [Unicafe](https://github.com/juhakaup/ot-harjoitustyo/tree/master/laskarit/viikko2/Unicafe)
   
   ![alt text](https://github.com/juhakaup/ot-harjoitustyo/blob/master/laskarit/viikko2/jacoco.png)
+
+## Harjoitustyö
+
+  [Vaatimusmäärittely](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/vaatimusmaarittely.md)
+  
+  [Työaikakirjanpito](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/tuntikirjanpito.md)
