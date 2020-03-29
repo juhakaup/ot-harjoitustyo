@@ -34,7 +34,7 @@ public class Tile {
      * neighboring tiles values by one and decrementing the tiles value by
      * the amount of adjacent tiles 
      */
-    void disperseTile() {
+    public void disperseTile() {
         for (Tile tile : adjacentTiles) {
             tile.setValue(tile.getValue() + 1);
         }

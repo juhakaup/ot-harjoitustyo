@@ -23,7 +23,7 @@ public class Level {
      * Creates the connections between tiles in a level
      * @param matrix 2D matrix representing connections between tiles
      */
-    public void setConnections(Integer[][] matrix) {
+    public void createTileConnections(Integer[][] matrix) {
         this.tileConnections = matrix;
         
         for(int tile = 0; tile < tileConnections.length; tile++) {

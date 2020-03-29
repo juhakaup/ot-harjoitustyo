@@ -28,7 +28,7 @@ public class Game {
         return false;
     }
     
-    public boolean incrementTile(int index) {
+    public boolean disperseTile(int index) {
         if(currentLevel.getTile(index) != null) {
             currentLevel.getTile(index).disperseTile();
             return true;
