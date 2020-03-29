@@ -21,8 +21,9 @@ public class Game {
      * @return true if level loaded, false otherwise
      */
     public boolean loadLevel(String levelId) {
-        if (levelDao.findLevelById(levelId) != null) {
-            this.currentLevel = levelDao.findLevelById(levelId);
+        Level level = levelDao.findLevelById(levelId);
+        if (level != null) {
+            this.currentLevel = level;
             return true;
         }
         return false;

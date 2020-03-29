@@ -17,11 +17,10 @@ public class FakeLevelDao implements LevelDao {
         level.addTile(new Tile(3, 0));
         level.addTile(new Tile(4, 0));
         
-        level.createTileConnections(new Integer[][]{
-            {0,0,2,0,0,0}, //1
-            {3,0,0,0,0,1}, //2
-            {0,0,4,2,0,0}, //3
-            {0,0,0,0,0,3}  //4
+        level.createTileConnections(new int[][]{
+            {1,2,3},
+            {2,3,1},
+            {3,4,3}
         });
         
         return level;

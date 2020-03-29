@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public class Level {
     private ArrayList<Tile> tileSet;
-    private Integer[][] tileConnections;
     private final String levelId;
     
     public Level(String id) {
@@ -21,17 +20,14 @@ public class Level {
     
     /**
      * Creates the connections between tiles in a level
-     * @param matrix 2D matrix representing connections between tiles
+     * @param connections array of vectors representing the connections between the tiles
      */
-    public void createTileConnections(Integer[][] matrix) {
-        this.tileConnections = matrix;
-        
-        for(int tile = 0; tile < tileConnections.length; tile++) {
-            for(int index = 0; index < tileConnections[tile].length; index++) {
-                if(tileConnections[tile][index] != 0) {
-                    tileSet.get(tile).addAdjecentTile(tileSet.get(tileConnections[tile][index] - 1));
-                }
-            }
+    public void createTileConnections(int[][] connections) {
+        for (int[] connection : connections) {
+            Tile tileA = tileSet.get(connection[0]);
+            Tile tileB = tileSet.get(connection[1]);
+            tileA.addAdjecentTile(tileB);
+            tileB.addAdjecentTile(tileA);
         }
     }
     
