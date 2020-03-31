@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Level {
     private ArrayList<Tile> tileSet;
     private final String levelId;
+    private int[][] connections;
     
     public Level(String id) {
         levelId = id;
@@ -23,6 +24,7 @@ public class Level {
      * @param connections array of vectors representing the connections between the tiles
      */
     public void createTileConnections(int[][] connections) {
+        this.connections = connections;
         for (int[] connection : connections) {
             Tile tileA = tileSet.get(connection[0]);
             Tile tileB = tileSet.get(connection[1]);
@@ -34,4 +36,13 @@ public class Level {
     public Tile getTile(int index) {
         return tileSet.get(index);
     }
+    
+    public ArrayList<Tile> getTileSet() {
+        return this.tileSet;
+    }
+    
+    public int[][] getConnections() {
+        return this.connections;
+    }
+    
 }
