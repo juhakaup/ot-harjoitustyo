@@ -1,25 +1,28 @@
-# Ohjelmistotekniikka 2020
+# Tasata
 
-Tämä on *ohjelmistotekniikan* kevään _2020_ harjoitustyö.
+Tasata on pulmanratkaisupeli jossa pelaajan tarkoituksena on saada kaikkiin kentän solmuihin sama arvo. Solmuissa olevia arvoja voi liikuttaa klikkaamalla solmua, jolloin solmun arvoa siirtyy siihen kiinnittyneisiin solmuihin. Peli pitää kirjaa pelaajan ratkaisemista tasoista ja avaa uusia tasoja pelattavaksi pelin edistyessä. 
 
-## Laskarit 
-
-* Viikko 1
-
-  [gitlog.txt](https://github.com/juhakaup/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
-
-  [komentorivi.txt](https://github.com/juhakaup/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
-
-* Viikko 2
-
-  [Maksukortti](https://github.com/juhakaup/ot-harjoitustyo/tree/master/laskarit/viikko2/Maksukortti)
-  
-  [Unicafe](https://github.com/juhakaup/ot-harjoitustyo/tree/master/laskarit/viikko2/Unicafe)
-  
-  ![alt text](https://github.com/juhakaup/ot-harjoitustyo/blob/master/laskarit/viikko2/jacoco.png)
-
-## Harjoitustyö
+## Dokumentaatio
 
   [Vaatimusmäärittely](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/vaatimusmaarittely.md)
-  
+
   [Työaikakirjanpito](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/tuntikirjanpito.md)
+
+## Komentorivitoiminnot
+
+### Ohjelman suorittaminen
+
+Koodin suoritus komentoriviltä onnistuu komennolla:
+
+```
+mvn compile exec:java -Dexec.mainClass=tasata.Main
+```
+
+### Testaus
+
+Testit suoritetaan komennolla:
+
+```
+mvn test
+```
+

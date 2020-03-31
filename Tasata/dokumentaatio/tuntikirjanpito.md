@@ -6,4 +6,8 @@
 | 22.3. | 2    | JavaFX:ään tutustumista |
 | 24.3. | 2    | JavaFX:n kaivelua, tietorakenteiden suunnittelua |
 | 28.3. | 4    | Peliin logiikkaan liittyvien luokkien rakentelua |
-| yht   | 9    | | 
+| 29.3. | 1    | Testien tekemistä |
+| 29.3. | 2    | Ui:n testailua |
+| 30.3. | 1    | LevelSet luokan hahmottelua |
+| 31.3. | 6    | Käyttöliittymän rakentelua, peruselementtien paikat, vähän toiminnallisuutta |
+| yht   | 19   | | 
