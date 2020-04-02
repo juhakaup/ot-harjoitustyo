@@ -33,10 +33,6 @@ public class Level {
         }
     }
     
-    public Tile getTile(int index) {
-        return tileSet.get(index);
-    }
-    
     public ArrayList<Tile> getTileSet() {
         return this.tileSet;
     }

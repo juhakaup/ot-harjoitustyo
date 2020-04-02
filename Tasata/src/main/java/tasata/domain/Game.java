@@ -32,18 +32,8 @@ public class Game {
         return false;
     }
     
-    public int[][] getLevelConncetions() {
-        if(currentLevel != null) {
-            return currentLevel.getConnections();
-        }
-        return null;
-    }
-    
-    public ArrayList<Tile> getLevelTiles() {
-        if(currentLevel != null) {
-            return currentLevel.getTileSet();
-        }
-        return null;
+    public Level getCurrentLevel() {
+        return this.currentLevel;
     }
     
     public void incrementMoves() {
@@ -54,6 +44,11 @@ public class Game {
         return moves;
     }
     
+    /**
+     * Check if all the tiles in the current level have the same value
+     * 
+     * @return true if level is solved, false otherwise
+     */
     public boolean isSolved() {
         ArrayList<Tile> tiles = currentLevel.getTileSet();
         int value = tiles.get(0).getValue();

@@ -99,7 +99,7 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
     
     private void updateTiles() {
         gameSegment.getChildren().clear();
-        ArrayList<Tile> tiles = game.getLevelTiles();
+        ArrayList<Tile> tiles = game.getCurrentLevel().getTileSet();
         ArrayList<Node> uiTiles = new ArrayList<>();
         
         for (Tile tile : tiles) {
@@ -126,7 +126,7 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
     private void setTilePositions(ArrayList<Node> nodes) {
         if (nodes.size() < 2) return;
         
-        int[][] connections = game.getLevelConncetions();
+        int[][] connections = game.getCurrentLevel().getConnections();
         
         for (int[] connection : connections) {
             int tile1 = connection[0];
