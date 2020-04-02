@@ -8,13 +8,17 @@ import java.util.ArrayList;
 
 public class Tile {
     private int value;
-    private int id;
+    private String id;
     private final ArrayList<Tile> adjacentTiles;
     
-    public Tile(int id, int value) {
+    public Tile(String id, int value) {
         this.id = id;
         this.value = value;
         adjacentTiles = new ArrayList<>();
+    }
+    
+    public String getId() {
+        return id;
     }
     
     public int getValue() {

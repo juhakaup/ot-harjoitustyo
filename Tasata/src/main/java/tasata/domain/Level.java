@@ -37,6 +37,15 @@ public class Level {
         return this.tileSet;
     }
     
+    public Tile getTile(String id) {
+        for (Tile tile : tileSet) {
+            if (tile.getId().equals(id)) {
+                return tile;
+            }
+        }
+        return null;
+    }
+    
     public int[][] getConnections() {
         return this.connections;
     }

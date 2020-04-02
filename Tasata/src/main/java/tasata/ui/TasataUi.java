@@ -1,6 +1,7 @@
 package tasata.ui;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,6 +32,7 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
     private static final double[][] DIR = new double[][]{ 
         {},{0.5,-0.87},{1,0},{0.5,0.87},{-0.5,0.87},{-1,0},{-0.5,-0.87} 
     };
+    private HashSet<Button> gameTiles;
     private Game game;
     private StackPane gameSegment;
     private GridPane titleSegment;
@@ -40,6 +42,7 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
     
     public void LoadLevel(String levelId) {
         game.loadLevel("levelId");
+        gameTiles = new HashSet<>();
         updateTiles();
         movesText.setText("0");
     }
@@ -84,8 +87,11 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
     public void handle(ActionEvent event) {
         if(event.getSource() instanceof Button) {
             Button b = (Button) event.getSource();
-            Tile t = (Tile)b.getUserData();
-            t.disperseTile();
+            if(!gameTiles.contains(b)) {
+                return;
+            }
+            Tile tile = game.getCurrentLevel().getTile((String)b.getUserData());
+            tile.disperseTile();
             updateTiles();
             game.incrementMoves();
             movesText.setText(Integer.toString(game.getMoves()));
@@ -104,10 +110,11 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
         
         for (Tile tile : tiles) {
             Button button = new Button(Integer.toString(tile.getValue()));
-            button.setUserData(tile);
+            button.setUserData(tile.getId());
             button.setOnAction(this);
             button.setPrefSize(55, 64);
-            
+            gameTiles.add(button);
+           
             // todo: convert into class with no hard coded value
             Polygon hexagon = new Polygon();
             hexagon.getPoints().addAll(new Double[]{        

@@ -23,12 +23,12 @@ public class FakeLevelDao implements LevelDao {
 //            {2,3,3}
 //        });
         
-        level.addTile(new Tile(0, 6));
-        level.addTile(new Tile(1, 0));
-        level.addTile(new Tile(2, 0));
-        level.addTile(new Tile(3, 0));
-        level.addTile(new Tile(4, 0));
-        level.addTile(new Tile(5, 0));
+        level.addTile(new Tile("0", 6));
+        level.addTile(new Tile("1", 0));
+        level.addTile(new Tile("2", 0));
+        level.addTile(new Tile("3", 0));
+        level.addTile(new Tile("4", 0));
+        level.addTile(new Tile("5", 0));
         
         level.createTileConnections(new int[][]{
             {0,1,3},
