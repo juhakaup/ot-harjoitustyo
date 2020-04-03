@@ -10,4 +10,6 @@
 | 29.3. | 2    | Ui:n testailua |
 | 30.3. | 1    | LevelSet luokan hahmottelua |
 | 31.3. | 6    | Käyttöliittymän rakentelua, peruselementtien paikat, vähän toiminnallisuutta |
-| yht   | 19   | | 
+| 2.4.  | 2    | Käyttöliittymän ja logiikkaluokkien siistimistä |
+| 3.4.  | 6    | Kenttien lataaminen tiedostosta ja siihen liittyvää refaktorointia |
+| yht   | 27   | | 
