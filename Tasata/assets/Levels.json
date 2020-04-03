@@ -1,0 +1,68 @@
+[
+  {
+    "levelId": "A01",
+    "description": "TaSaTa 101",
+    "moves": 10,
+    "tileSet": [
+      {
+        "id": "A",
+        "value": 4
+      },
+      {
+        "id": "B",
+        "value": 0
+      },
+      {
+        "id": "C",
+        "value": 0
+      },
+      {
+        "id": "D",
+        "value": 0
+      }
+    ],
+    "connections": [
+      [ "A", "B", "3" ],
+      [ "B", "C", "1" ],
+      [ "C", "D", "3" ]
+    ]
+  },
+  {
+    "levelId": "A02",
+    "description": "Byte harder",
+    "moves": 17,
+    "tileSet": [
+      {
+        "id": "A",
+        "value": 6
+      },
+      {
+        "id": "B",
+        "value": 0
+      },
+      {
+        "id": "C",
+        "value": 0
+      },
+      {
+        "id": "D",
+        "value": 0
+      },
+      {
+        "id": "E",
+        "value": 0
+      },
+      {
+        "id": "F",
+        "value": 0
+      }
+    ],
+    "connections": [
+      [ "A", "B", "3" ],
+      [ "B", "C", "1" ],
+      [ "B", "D", "2" ],
+      [ "D", "E", "1" ],
+      [ "D", "F", "3" ]
+    ]
+  }
+]

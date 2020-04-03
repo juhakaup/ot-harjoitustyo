@@ -1,7 +1,7 @@
 package tasata.ui;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,6 +20,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tasata.dao.FakeLevelDao;
+import tasata.dao.FileLevelDao;
 import tasata.domain.Game;
 import tasata.domain.Tile;
 
@@ -32,8 +33,9 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
     private static final double[][] DIR = new double[][]{ 
         {},{0.5,-0.87},{1,0},{0.5,0.87},{-0.5,0.87},{-1,0},{-0.5,-0.87} 
     };
-    private HashSet<Button> gameTiles;
+    private HashMap<String,Button> uiTiles;
     private Game game;
+    
     private StackPane gameSegment;
     private GridPane titleSegment;
     private BorderPane root;
@@ -41,15 +43,21 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
     
     
     public void LoadLevel(String levelId) {
-        game.loadLevel("levelId");
-        gameTiles = new HashSet<>();
-        updateTiles();
-        movesText.setText("0");
+        if (game.loadLevel(levelId)) {
+            createTiles();
+            updateTiles();
+            movesText.setText("0");
+        } else {
+            System.out.println("Error loading level");
+        }
     }
     
     @Override
-    public void start(Stage stage) { 
-        game = new Game(new FakeLevelDao());
+    public void start(Stage stage) throws Exception { 
+        FileLevelDao dao = new FileLevelDao("assets/Levels.json");
+        //FakeLevelDao dao = new FakeLevelDao();
+        game = new Game(dao);
+        uiTiles = new HashMap<>();
         gameSegment = new StackPane();
         titleSegment = new GridPane();
         root = new BorderPane();
@@ -69,15 +77,14 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
         
         Button resetLevel = new Button("Restart");
         resetLevel.setOnAction((ActionEvent e) -> {
-            LoadLevel("tmp");
+            LoadLevel("A02");
         });
 
         root.setCenter(gameSegment);
         root.setTop(titleSegment);
         root.setBottom(resetLevel);
         
-        LoadLevel("tmp");
-        updateTiles();
+        LoadLevel("A01");
         
         stage.setScene(scene);
         stage.show();
@@ -87,7 +94,7 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
     public void handle(ActionEvent event) {
         if(event.getSource() instanceof Button) {
             Button b = (Button) event.getSource();
-            if(!gameTiles.contains(b)) {
+            if(!uiTiles.containsKey((String)b.getUserData())) {
                 return;
             }
             Tile tile = game.getCurrentLevel().getTile((String)b.getUserData());
@@ -103,17 +110,16 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
         }
     }
     
-    private void updateTiles() {
+    private void createTiles() {
         gameSegment.getChildren().clear();
         ArrayList<Tile> tiles = game.getCurrentLevel().getTileSet();
-        ArrayList<Node> uiTiles = new ArrayList<>();
         
         for (Tile tile : tiles) {
             Button button = new Button(Integer.toString(tile.getValue()));
             button.setUserData(tile.getId());
             button.setOnAction(this);
             button.setPrefSize(55, 64);
-            gameTiles.add(button);
+            uiTiles.put(tile.getId(), button);
            
             // todo: convert into class with no hard coded value
             Polygon hexagon = new Polygon();
@@ -123,31 +129,35 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
             });
             
             button.setShape(hexagon);
-            
-            uiTiles.add(button);
             gameSegment.getChildren().add(button);
         }
-        setTilePositions(uiTiles);
     }
     
-    private void setTilePositions(ArrayList<Node> nodes) {
-        if (nodes.size() < 2) return;
+    private void updateTiles() {
+        for(Tile tile : game.getCurrentLevel().getTileSet()) {
+            uiTiles.get(tile.getId()).setText(Integer.toString(tile.getValue()));
+        }
+        updateTilePositions();
+    }
+    
+    private void updateTilePositions() {
+        if(uiTiles.size() < 2) return;
         
-        int[][] connections = game.getCurrentLevel().getConnections();
+        String[][] connections = game.getCurrentLevel().getConnections();
         
-        for (int[] connection : connections) {
-            int tile1 = connection[0];
-            int tile2 = connection[1];
-            int direction = connection[2];
+        for (String[] connection : connections) {
+            Node tile1 = uiTiles.get(connection[0]);
+            Node tile2 = uiTiles.get(connection[1]);
+            int direction = Integer.parseInt(connection[2]);
             
-            double originX = nodes.get(tile1).getTranslateX();
-            double originY = nodes.get(tile1).getTranslateY();
+            double originX = tile1.getTranslateX();
+            double originY = tile1.getTranslateY();
             
             double newPosX = originX + DIR[direction][0] * TILEMAXSIZE;
             double newPosY = originY + DIR[direction][1] * TILEMAXSIZE;
             
-            nodes.get(tile2).setTranslateX(newPosX);
-            nodes.get(tile2).setTranslateY(newPosY);
+            tile2.setTranslateX(newPosX);
+            tile2.setTranslateY(newPosY);
             
             Line line = new Line(originX, originY, originX + DIR[direction][0] * 5, originY + DIR[direction][1] * 5);
             line.setStrokeWidth(4.0);

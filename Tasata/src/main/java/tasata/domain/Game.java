@@ -22,6 +22,7 @@ public class Game {
      * @param levelId level to be loaded
      * @return true if level loaded, false otherwise
      */
+    
     public boolean loadLevel(String levelId) {
         Level level = levelDao.findLevelById(levelId);
         if (level != null) {
@@ -49,6 +50,7 @@ public class Game {
      * 
      * @return true if level is solved, false otherwise
      */
+    
     public boolean isSolved() {
         ArrayList<Tile> tiles = currentLevel.getTileSet();
         int value = tiles.get(0).getValue();

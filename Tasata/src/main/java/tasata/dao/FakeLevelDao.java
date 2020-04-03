@@ -30,13 +30,15 @@ public class FakeLevelDao implements LevelDao {
         level.addTile(new Tile("4", 0));
         level.addTile(new Tile("5", 0));
         
-        level.createTileConnections(new int[][]{
-            {0,1,3},
-            {1,2,1},
-            {1,3,2},
-            {3,4,1},
-            {3,5,3}
+        level.createTileConnections(new String[][]{
+            {"0","1","3"},
+            {"1","2","1"},
+            {"1","3","2"},
+            {"3","4","1"},
+            {"3","5","3"}
         });
+        
+        
 
 //        level.addTile(new Tile(0, 0));
 //        level.addTile(new Tile(1, 10));
@@ -50,17 +52,19 @@ public class FakeLevelDao implements LevelDao {
 //        level.addTile(new Tile(9, 0));
 //        
 //        level.createTileConnections(new int[][]{
-//            {0,1,3},
-//            {1,2,4},
-//            {1,3,1},
-//            {3,4,3},
-//            {1,4,2},
+//            {a,b,3},
+//            {b,c,4},
+//            {b,d,1},
+//            {d,e,3},
+//            {b,e,2},
 //            {4,5,3},
 //            {5,6,1},
 //            {5,7,4},
 //            {7,8,5},
 //            {7,9,4}
 //        });
+//0 1 2 3 4 5 6 7 8 9
+//a b c d e f g h i j
             
         return level;
     }

@@ -17,6 +17,10 @@ public class Tile {
         adjacentTiles = new ArrayList<>();
     }
     
+    public Tile() {
+        adjacentTiles = new ArrayList<>();
+    }
+    
     public String getId() {
         return id;
     }
@@ -38,11 +42,17 @@ public class Tile {
      * neighboring tiles values by one and decrementing the tiles value by
      * the amount of adjacent tiles 
      */
+    
     public void disperseTile() {
         for (Tile tile : adjacentTiles) {
             tile.setValue(tile.getValue() + 1);
         }
         this.value = this.value -= adjacentTiles.size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.id.equals(o);
     }
     
 }
