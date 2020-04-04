@@ -25,7 +25,7 @@ import tasata.domain.Game;
 import tasata.domain.Tile;
 
 
-public class TasataUi extends Application implements EventHandler<ActionEvent> {
+public class TasataUi extends Application implements EventHandler<ActionEvent>, UiEventListener {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 600;
     private static final double TILEMAXSIZE = 65;
@@ -35,6 +35,9 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
     };
     private HashMap<String,Button> uiTiles;
     private Game game;
+    
+    private Scene menuScene;
+    private Scene gameScene;
     
     private StackPane gameSegment;
     private GridPane titleSegment;
@@ -58,6 +61,7 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
         //FakeLevelDao dao = new FakeLevelDao();
         game = new Game(dao);
         uiTiles = new HashMap<>();
+        
         gameSegment = new StackPane();
         titleSegment = new GridPane();
         root = new BorderPane();
@@ -80,13 +84,19 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
             LoadLevel("A02");
         });
 
-        root.setCenter(gameSegment);
         root.setTop(titleSegment);
         root.setBottom(resetLevel);
         
-        LoadLevel("A01");
+        //LoadLevel("A01");
+        game.loadLevel("A01");
+        GameScene gs = new GameScene(WIDTH, HEIGHT, game.getCurrentLevel().getConnections());
+        gs.createTiles(game.getCurrentLevel().getTileSet());
+        gs.addListener(this);
         
         stage.setScene(scene);
+        gameSegment = (StackPane)gs.getPane();
+        root.setCenter(gameSegment);
+        
         stage.show();
     }
 
@@ -119,18 +129,19 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
             button.setUserData(tile.getId());
             button.setOnAction(this);
             button.setPrefSize(55, 64);
-            uiTiles.put(tile.getId(), button);
-           
-            // todo: convert into class with no hard coded value
-            Polygon hexagon = new Polygon();
-            hexagon.getPoints().addAll(new Double[]{        
-                  0.0, 25.0, 43.0, 0.0, 86.0, 25.0, 
-                86.0, 75.0, 43.0, 100.0, 0.0, 75.0, 
-            });
-            
-            button.setShape(hexagon);
+            uiTiles.put(tile.getId(), button);  
+            button.setShape(createHexagon());
             gameSegment.getChildren().add(button);
         }
+    }
+    
+    private Polygon createHexagon() {
+        Polygon hexagon = new Polygon();
+        hexagon.getPoints().addAll(new Double[]{        
+              0.0, 25.0, 43.0, 0.0, 86.0, 25.0, 
+            86.0, 75.0, 43.0, 100.0, 0.0, 75.0, 
+        });
+        return hexagon;
     }
     
     private void updateTiles() {
@@ -166,6 +177,11 @@ public class TasataUi extends Application implements EventHandler<ActionEvent> {
             line.setTranslateY(originY + DIR[direction][1] * (TILEMAXSIZE/2));
             gameSegment.getChildren().add(line);
         }
+    }
+
+    @Override
+    public void onUiEvent(String[] args) {
+        System.out.println("Well hello there, I'm listening");
     }
     
 }
