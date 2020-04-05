@@ -2,12 +2,13 @@ package tasata.domain;
 
 import java.util.ArrayList;
 import tasata.dao.LevelDao;
+import tasata.ui.UiEventListener;
 
 /**
  * This class handles the game logic and services
  */
 
-public class Game {
+public class Game implements UiEventListener{
     private Level currentLevel;
     private LevelDao levelDao;
     private int moves;
@@ -27,7 +28,6 @@ public class Game {
         Level level = levelDao.findLevelById(levelId);
         if (level != null) {
             currentLevel = level;
-            moves = 0;
             return true;
         }
         return false;
@@ -35,10 +35,6 @@ public class Game {
     
     public Level getCurrentLevel() {
         return this.currentLevel;
-    }
-    
-    public void incrementMoves() {
-        moves++;
     }
     
     public int getMoves() {
@@ -58,5 +54,12 @@ public class Game {
             if(tiles.get(i).getValue() != value) return false;
         }
         return true;
+    }
+
+    @Override
+    public void onUiEvent(String[] args) {
+        if(args[0].equals("TilePressed")) {
+            moves++;
+        }
     }
 }
