@@ -3,15 +3,22 @@ package tasata.ui;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
 import tasata.domain.Tile;
 
 /**
@@ -21,23 +28,53 @@ import tasata.domain.Tile;
 public class GameScene implements EventHandler {
 
     private static final double TILEMAXSIZE = 65;
-    private static final double TILEMINSIZE = 20;
     private static final double[][] DIR = new double[][]{
-        {}, {0.5, -0.87}, {1, 0}, {0.5, 0.87}, {-0.5, 0.87}, {-1, 0}, {-0.5, -0.87}
-    };
+        {}, {0.5, -0.87}, {1, 0}, {0.5, 0.87}, {-0.5, 0.87}, {-1, 0}, {-0.5, -0.87}};
     private final StackPane gameSegment;
     private final String[][] connections;
     private final HashMap<String, Button> uiTiles;
     private final List<UiEventListener> listeners = new ArrayList<>();
+    
+    private final GridPane titleSegment;
+    private final BorderPane root;
+    private final Scene scene;
+    private final Text movesText;
+    private int moves = 0;
+    private final Button resetLevel;
 
     public GameScene(int width, int height, String[][] connections) {
         gameSegment = new StackPane();
         this.connections = connections;
         uiTiles = new HashMap<>();
+        
+        titleSegment = new GridPane();
+        titleSegment.setPadding(new Insets(10, 10, 10, 10));
+        titleSegment.setMinSize(width, 30);
+        titleSegment.setHgap(20);
+        titleSegment.setAlignment(Pos.CENTER);
+        
+        root = new BorderPane();
+        scene = new Scene(root, width, height);
+        
+        Text titleText = new Text(10, 90, "TaSaTa");
+        movesText = new Text(10, 90, "0");
+                
+        resetLevel = new Button("Restart");
+        resetLevel.setUserData("ResetLevel");
+        resetLevel.setOnAction(this);
+        
+        titleSegment.add(titleText, 0, 0);
+        titleSegment.add(movesText, 2, 0);
+        GridPane.setHalignment(titleText, HPos.LEFT);
+        GridPane.setHalignment(movesText, HPos.RIGHT);
+        
+        root.setCenter(gameSegment);
+        root.setTop(titleSegment);
+        root.setBottom(resetLevel);
     }
 
-    public Pane getPane() {
-        return this.gameSegment;
+    public Scene getScene() {
+        return this.scene;
     }
 
     public void createTiles(ArrayList<Tile> tiles) {
@@ -53,6 +90,7 @@ public class GameScene implements EventHandler {
             gameSegment.getChildren().add(button);
         }
         updateTilePositions();
+        moves = 0;
     }
 
     private Polygon createHexagon() {
@@ -106,10 +144,20 @@ public class GameScene implements EventHandler {
 
     @Override
     public void handle(Event event) {
-        if(event.getSource() instanceof Button) {
-           
+        if(event.getSource() instanceof Button) { 
+            Button b = (Button) event.getSource();
+            String[] args = new String[2];
+            
+            if (b == resetLevel) {
+                args = new String[]{"ResetPressed",""};
+            } else if (uiTiles.containsKey(String.valueOf(b.getUserData()))) {
+                moves++;
+                movesText.setText(Integer.toString(moves));
+                args = new String[]{"TilePressed",String.valueOf(b.getUserData())};
+            }
+            
             for (UiEventListener listener : listeners) {
-                listener.onUiEvent(new String[]{"Tile",""});
+                listener.onUiEvent(args);
             } 
         }
     }
