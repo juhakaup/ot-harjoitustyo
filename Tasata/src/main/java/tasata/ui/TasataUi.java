@@ -16,7 +16,7 @@ public class TasataUi extends Application implements UiEventListener {
     private Stage window;
     private Game game;
     private GameScene gameScene;
-    private Scene menuScene; 
+    private MenuScene menuScene; 
     private String currentLevel = "A01";
     
     public void loadLevel(String levelId) {
@@ -36,22 +36,44 @@ public class TasataUi extends Application implements UiEventListener {
         FileLevelDao dao = new FileLevelDao("assets/Levels.json");
         //FakeLevelDao dao = new FakeLevelDao();
         game = new Game(dao);
-        loadLevel(currentLevel);
+        
+        menuScene = new MenuScene(WIDTH, HEIGHT);
+        menuScene.addListener(this);
+        window.setScene(menuScene.getScene());
+        
+        //loadLevel(currentLevel);
         window.show();
     }
     
     @Override
     public void onUiEvent(String[] args) {
-        if (args[0].equals("TilePressed")) {
-            game.getCurrentLevel().getTile(args[1]).disperseTile();
-            gameScene.updateTiles(game.getCurrentLevel().getTileSet());
-            if (game.isSolved()) {
-                System.out.println("level solved");
-            }
-        } else if (args[0].equals("ResetPressed")) {
-            loadLevel(currentLevel);
-            ArrayList<Tile> ts = game.getCurrentLevel().getTileSet();
-            gameScene.updateTiles(game.getCurrentLevel().getTileSet());
+        switch (args[0]) {
+            case "TilePressed":
+                game.getCurrentLevel().getTile(args[1]).disperseTile();
+                gameScene.updateTiles(game.getCurrentLevel().getTileSet());
+                if (game.isSolved()) {
+                    System.out.println("level solved");
+                    gameScene.displayPopMenu();
+                }   break;
+            case "ResetPressed":
+                loadLevel(currentLevel);
+                ArrayList<Tile> ts = game.getCurrentLevel().getTileSet();
+                gameScene.updateTiles(game.getCurrentLevel().getTileSet());
+                break;
+            case "BackToMenu":
+                System.out.println("Back to menu");
+                window.setScene(menuScene.getScene());
+                break;
+            case "NextLevel":
+                System.out.println("Next Level Please");
+                break;
+            case "LoadLevel":
+                System.out.println("Load Level " + args[1] + " Please");
+                currentLevel = args[1];
+                loadLevel(currentLevel);
+                break;
+            default:
+                break;
         }
     }
     

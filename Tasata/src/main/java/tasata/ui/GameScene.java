@@ -3,7 +3,6 @@ package tasata.ui;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -14,17 +13,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import tasata.domain.Tile;
 
-/**
- *
- *
- */
+
 public class GameScene implements EventHandler {
 
     private static final double TILEMAXSIZE = 65;
@@ -41,8 +39,16 @@ public class GameScene implements EventHandler {
     private final Text movesText;
     private int moves = 0;
     private final Button resetLevel;
+    private Button displayMenu;
+    private Button popReset;
+    private Button popMenu;
+    private Button popNext;
+    private final int WIDTH;
+    private final int HEIGHT;
 
     public GameScene(int width, int height, String[][] connections) {
+        this.HEIGHT = height;
+        this.WIDTH = width;
         gameSegment = new StackPane();
         this.connections = connections;
         uiTiles = new HashMap<>();
@@ -62,19 +68,70 @@ public class GameScene implements EventHandler {
         resetLevel = new Button("Restart");
         resetLevel.setUserData("ResetLevel");
         resetLevel.setOnAction(this);
+        
+        displayMenu = new Button("Menu");
+        displayMenu.setOnAction(e -> {
+            displayPopMenu();
+        });
 
         titleSegment.add(titleText, 0, 0);
         titleSegment.add(movesText, 2, 0);
         GridPane.setHalignment(titleText, HPos.LEFT);
         GridPane.setHalignment(movesText, HPos.RIGHT);
+        
+        HBox controls = new HBox();
+        controls.getChildren().add(resetLevel);
+        controls.getChildren().add(displayMenu);
 
         root.setCenter(gameSegment);
         root.setTop(titleSegment);
-        root.setBottom(resetLevel);
+        root.setBottom(controls);
     }
 
     public Scene getScene() {
         return this.scene;
+    }
+    
+    public void displayPopMenu() {
+        disableTiles();
+        popReset = new Button("Retry");
+        popReset.setOnAction(this);
+        popMenu = new Button("Back to menu");
+        popMenu.setOnAction(this);
+        popNext = new Button("Next");
+        popNext.setOnAction(this);
+        
+        HBox hbox = new HBox();
+        hbox.getChildren().add(popReset);
+        hbox.getChildren().add(popMenu);
+        hbox.getChildren().add(popNext);
+        hbox.setSpacing(10);
+        hbox.setAlignment(Pos.CENTER);
+        //hbox.setStyle("-fx-background-color: #ecf2f9;");
+        
+        VBox vbox = new VBox();
+        vbox.setMaxWidth(WIDTH*0.7);
+        vbox.setMaxHeight(WIDTH*.25);
+        vbox.setStyle("-fx-background-color: rgba(0, 102, 204, 0.5); -fx-background-radius: 10;");
+        vbox.setAlignment(Pos.CENTER);
+        Text text = new Text("Level Solved!");
+        text.setStyle("-fx-font: 22px Tahoma");
+        text.setFill(Color.WHITESMOKE);
+        text.setTranslateY(-10);
+        
+        vbox.getChildren().add(text);
+        vbox.getChildren().add(hbox);
+        
+        gameSegment.getChildren().add(vbox);
+    }
+    
+    public void disableTiles() {
+        System.out.println("Disable tiles unimplemented");
+    }
+    
+    public void enableTiles() {
+        System.out.println("Enable tiles unimplemented");
+        
     }
 
     public void createTiles(ArrayList<Tile> tiles) {
@@ -149,12 +206,16 @@ public class GameScene implements EventHandler {
             Button b = (Button) event.getSource();
             String[] args = new String[2];
 
-            if (b == resetLevel) {
+            if (b == resetLevel || b == popReset) {
                 args = new String[]{"ResetPressed", ""};
             } else if (uiTiles.containsKey(String.valueOf(b.getUserData()))) {
                 moves++;
                 movesText.setText(Integer.toString(moves));
                 args = new String[]{"TilePressed", String.valueOf(b.getUserData())};
+            } else if (b == popMenu) {
+                args = new String[]{"BackToMenu", ""};
+            } else if (b == popNext) {
+                args = new String[]{"NextLevel", ""};
             }
 
             for (UiEventListener listener : listeners) {
