@@ -28,3 +28,20 @@ Testit suoritetaan komennolla:
 mvn test
 ```
 
+Testikattavuusraportin luonti:
+
+```
+mvn jacoco:report
+```
+
+### Checkstyle
+
+Tiedostossa checkstyle.xml on määritelty asetukset koodin analysointiin Checkstylen avulla.
+
+Tarkistusraportti luodaan komennolla:
+
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
+
+Raportti projektin juuresta kansiosta *target/site/checkstyle.html*
