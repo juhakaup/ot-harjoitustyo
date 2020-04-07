@@ -1,5 +1,28 @@
 [
   {
+    "levelId": "TestData",
+    "description": "This is a test 123",
+    "moves": 4,
+    "tileSet": [
+      {
+        "id": "A",
+        "value": 3
+      },
+      {
+        "id": "B",
+        "value": 0
+      },
+      {
+        "id": "C",
+        "value": 0
+      }
+    ],
+    "connections": [
+      [ "A", "B", "3" ],
+      [ "B", "C", "1" ]
+    ]
+  },
+  {
     "levelId": "A01",
     "description": "TaSaTa 101",
     "moves": 10,

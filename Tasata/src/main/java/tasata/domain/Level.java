@@ -24,23 +24,32 @@ public class Level {
         tileSet.add(tile);
     }
     
+    public String getId() {
+        return this.levelId;
+    }
+    
     /**
      * Creates the connections between tiles in a level
      * @param connections array of vectors representing the connections between the tiles
+     * @return true if connections were build, false otherwise
      */
     
-    public void createTileConnections(String[][] connections) {
-        this.connections = connections;
+    public boolean createTileConnections(String[][] connections) {
         for (String[] connection : connections) {
             Tile tileA = getTile(connection[0]);
             Tile tileB = getTile(connection[1]);
+            if(tileA == null || tileB == null) {
+                return false;
+            }
             tileA.addAdjecentTile(tileB);
             tileB.addAdjecentTile(tileA);
         }
+        this.connections = connections;
+        return true;
     }
     
-    public void createTileConnections() {
-        createTileConnections(this.connections);
+    public boolean createTileConnections() {
+        return createTileConnections(this.connections);
     }
     
     public void setTileConnections(String[][] connections) {
