@@ -12,4 +12,7 @@
 | 31.3. | 6    | Käyttöliittymän rakentelua, peruselementtien paikat, vähän toiminnallisuutta |
 | 2.4.  | 2    | Käyttöliittymän ja logiikkaluokkien siistimistä |
 | 3.4.  | 6    | Kenttien lataaminen tiedostosta ja siihen liittyvää refaktorointia |
-| yht   | 27   | | 
+| 4.4.  | 3    | Uin jakaminen luokkiin, observer-malli eventeille |
+| 5.4.  | 3    | Ui luokkien viilaamista |
+| 7.4.  | 4    | Testejä pelilogiikalle ja kentälle, checkstyle |
+| yht   | 37   | | 
