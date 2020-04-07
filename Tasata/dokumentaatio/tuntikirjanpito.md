@@ -15,4 +15,5 @@
 | 4.4.  | 3    | Uin jakaminen luokkiin, observer-malli eventeille |
 | 5.4.  | 3    | Ui luokkien viilaamista |
 | 7.4.  | 4    | Testejä pelilogiikalle ja kentälle, checkstyle |
-| yht   | 37   | | 
+| 7.4.  | 1    | Menuscene |
+| yht   | 38   | | 
