@@ -6,6 +6,8 @@ Tasata on pulmanratkaisupeli jossa pelaajan tarkoituksena on saada kaikkiin kent
 
   [Vaatimusmäärittely](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/vaatimusmaarittely.md)
 
+ [Arkkitehtuurikuvaus](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/arkkitehtuuri.md)
+
   [Työaikakirjanpito](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/tuntikirjanpito.md)
 
 ## Komentorivitoiminnot
