@@ -22,7 +22,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import tasata.domain.Tile;
 
-
 public class GameScene implements EventHandler {
 
     private static final double TILEMAXSIZE = 65;
@@ -68,7 +67,7 @@ public class GameScene implements EventHandler {
         resetLevel = new Button("Restart");
         resetLevel.setUserData("ResetLevel");
         resetLevel.setOnAction(this);
-        
+
         displayMenu = new Button("Menu");
         displayMenu.setOnAction(e -> {
             displayPopMenu();
@@ -78,7 +77,7 @@ public class GameScene implements EventHandler {
         titleSegment.add(movesText, 2, 0);
         GridPane.setHalignment(titleText, HPos.LEFT);
         GridPane.setHalignment(movesText, HPos.RIGHT);
-        
+
         HBox controls = new HBox();
         controls.getChildren().add(resetLevel);
         controls.getChildren().add(displayMenu);
@@ -91,7 +90,7 @@ public class GameScene implements EventHandler {
     public Scene getScene() {
         return this.scene;
     }
-    
+
     public void displayPopMenu() {
         disableTiles();
         popReset = new Button("Retry");
@@ -100,7 +99,7 @@ public class GameScene implements EventHandler {
         popMenu.setOnAction(this);
         popNext = new Button("Next");
         popNext.setOnAction(this);
-        
+
         HBox hbox = new HBox();
         hbox.getChildren().add(popReset);
         hbox.getChildren().add(popMenu);
@@ -108,30 +107,30 @@ public class GameScene implements EventHandler {
         hbox.setSpacing(10);
         hbox.setAlignment(Pos.CENTER);
         //hbox.setStyle("-fx-background-color: #ecf2f9;");
-        
+
         VBox vbox = new VBox();
-        vbox.setMaxWidth(WIDTH*0.7);
-        vbox.setMaxHeight(WIDTH*.25);
+        vbox.setMaxWidth(WIDTH * 0.7);
+        vbox.setMaxHeight(WIDTH * .25);
         vbox.setStyle("-fx-background-color: rgba(0, 102, 204, 0.5); -fx-background-radius: 10;");
         vbox.setAlignment(Pos.CENTER);
         Text text = new Text("Level Solved!");
         text.setStyle("-fx-font: 22px Tahoma");
         text.setFill(Color.WHITESMOKE);
         text.setTranslateY(-10);
-        
+
         vbox.getChildren().add(text);
         vbox.getChildren().add(hbox);
-        
+
         gameSegment.getChildren().add(vbox);
     }
-    
+
     public void disableTiles() {
         System.out.println("Disable tiles unimplemented");
     }
-    
+
     public void enableTiles() {
         System.out.println("Enable tiles unimplemented");
-        
+
     }
 
     public void createTiles(ArrayList<Tile> tiles) {
@@ -184,7 +183,7 @@ public class GameScene implements EventHandler {
             tile2.setTranslateX(newPosX);
             tile2.setTranslateY(newPosY);
 
-            Line line = new Line(originX, originY, originX + DIR[direction][0] * 5, 
+            Line line = new Line(originX, originY, originX + DIR[direction][0] * 5,
                     originY + DIR[direction][1] * 5);
             line.setStrokeWidth(4.0);
             line.setStroke(Color.DARKGRAY);
