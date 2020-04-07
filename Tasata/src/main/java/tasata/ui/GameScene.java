@@ -34,7 +34,7 @@ public class GameScene implements EventHandler {
     private final String[][] connections;
     private final HashMap<String, Button> uiTiles;
     private final List<UiEventListener> listeners = new ArrayList<>();
-    
+
     private final GridPane titleSegment;
     private final BorderPane root;
     private final Scene scene;
@@ -46,28 +46,28 @@ public class GameScene implements EventHandler {
         gameSegment = new StackPane();
         this.connections = connections;
         uiTiles = new HashMap<>();
-        
+
         titleSegment = new GridPane();
         titleSegment.setPadding(new Insets(10, 10, 10, 10));
         titleSegment.setMinSize(width, 30);
         titleSegment.setHgap(20);
         titleSegment.setAlignment(Pos.CENTER);
-        
+
         root = new BorderPane();
         scene = new Scene(root, width, height);
-        
+
         Text titleText = new Text(10, 90, "TaSaTa");
         movesText = new Text(10, 90, "0");
-                
+
         resetLevel = new Button("Restart");
         resetLevel.setUserData("ResetLevel");
         resetLevel.setOnAction(this);
-        
+
         titleSegment.add(titleText, 0, 0);
         titleSegment.add(movesText, 2, 0);
         GridPane.setHalignment(titleText, HPos.LEFT);
         GridPane.setHalignment(movesText, HPos.RIGHT);
-        
+
         root.setCenter(gameSegment);
         root.setTop(titleSegment);
         root.setBottom(resetLevel);
@@ -79,7 +79,7 @@ public class GameScene implements EventHandler {
 
     public void createTiles(ArrayList<Tile> tiles) {
         gameSegment.getChildren().clear();
-        
+
         for (Tile tile : tiles) {
             Button button = new Button(Integer.toString(tile.getValue()));
             button.setUserData(tile.getId());
@@ -97,7 +97,7 @@ public class GameScene implements EventHandler {
         Polygon hexagon = new Polygon();
         hexagon.getPoints().addAll(new Double[]{
             0.0, 25.0, 43.0, 0.0, 86.0, 25.0,
-            86.0, 75.0, 43.0, 100.0, 0.0, 75.0,});
+            86.0, 75.0, 43.0, 100.0, 0.0, 75.0});
         return hexagon;
     }
 
@@ -127,7 +127,8 @@ public class GameScene implements EventHandler {
             tile2.setTranslateX(newPosX);
             tile2.setTranslateY(newPosY);
 
-            Line line = new Line(originX, originY, originX + DIR[direction][0] * 5, originY + DIR[direction][1] * 5);
+            Line line = new Line(originX, originY, originX + DIR[direction][0] * 5, 
+                    originY + DIR[direction][1] * 5);
             line.setStrokeWidth(4.0);
             line.setStroke(Color.DARKGRAY);
             line.setTranslateX(originX + DIR[direction][0] * (TILEMAXSIZE / 2));
@@ -144,21 +145,21 @@ public class GameScene implements EventHandler {
 
     @Override
     public void handle(Event event) {
-        if(event.getSource() instanceof Button) { 
+        if (event.getSource() instanceof Button) {
             Button b = (Button) event.getSource();
             String[] args = new String[2];
-            
+
             if (b == resetLevel) {
-                args = new String[]{"ResetPressed",""};
+                args = new String[]{"ResetPressed", ""};
             } else if (uiTiles.containsKey(String.valueOf(b.getUserData()))) {
                 moves++;
                 movesText.setText(Integer.toString(moves));
-                args = new String[]{"TilePressed",String.valueOf(b.getUserData())};
+                args = new String[]{"TilePressed", String.valueOf(b.getUserData())};
             }
-            
+
             for (UiEventListener listener : listeners) {
                 listener.onUiEvent(args);
-            } 
+            }
         }
     }
 

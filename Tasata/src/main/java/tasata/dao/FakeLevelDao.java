@@ -11,7 +11,7 @@ public class FakeLevelDao implements LevelDao {
     @Override
     public Level findLevelById(String id) {
         Level level = new Level(id);
-        
+
 //        level.addTile(new Tile(0, 4));
 //        level.addTile(new Tile(1, 0));
 //        level.addTile(new Tile(2, 0));
@@ -22,23 +22,20 @@ public class FakeLevelDao implements LevelDao {
 //            {1,2,1},
 //            {2,3,3}
 //        });
-        
         level.addTile(new Tile("0", 6));
         level.addTile(new Tile("1", 0));
         level.addTile(new Tile("2", 0));
         level.addTile(new Tile("3", 0));
         level.addTile(new Tile("4", 0));
         level.addTile(new Tile("5", 0));
-        
+
         level.createTileConnections(new String[][]{
-            {"0","1","3"},
-            {"1","2","1"},
-            {"1","3","2"},
-            {"3","4","1"},
-            {"3","5","3"}
+            {"0", "1", "3"},
+            {"1", "2", "1"},
+            {"1", "3", "2"},
+            {"3", "4", "1"},
+            {"3", "5", "3"}
         });
-        
-        
 
 //        level.addTile(new Tile(0, 0));
 //        level.addTile(new Tile(1, 10));
@@ -65,8 +62,7 @@ public class FakeLevelDao implements LevelDao {
 //        });
 //0 1 2 3 4 5 6 7 8 9
 //a b c d e f g h i j
-            
         return level;
     }
-    
+
 }

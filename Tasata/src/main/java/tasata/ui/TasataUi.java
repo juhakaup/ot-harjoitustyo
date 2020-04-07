@@ -42,14 +42,14 @@ public class TasataUi extends Application implements UiEventListener {
     
     @Override
     public void onUiEvent(String[] args) {
-        if(args[0].equals("TilePressed")) {
+        if (args[0].equals("TilePressed")) {
             game.getCurrentLevel().getTile(args[1]).disperseTile();
             gameScene.updateTiles(game.getCurrentLevel().getTileSet());
-            if(game.isSolved()) {
+            if (game.isSolved()) {
                 System.out.println("level solved");
             }
         } else if (args[0].equals("ResetPressed")) {
-            loadLevel(currentLevel);            System.out.println("jee");
+            loadLevel(currentLevel);
             ArrayList<Tile> ts = game.getCurrentLevel().getTileSet();
             gameScene.updateTiles(game.getCurrentLevel().getTileSet());
         }

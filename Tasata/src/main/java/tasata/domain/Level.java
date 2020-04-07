@@ -38,7 +38,7 @@ public class Level {
         for (String[] connection : connections) {
             Tile tileA = getTile(connection[0]);
             Tile tileB = getTile(connection[1]);
-            if(tileA == null || tileB == null) {
+            if (tileA == null || tileB == null) {
                 return false;
             }
             tileA.addAdjecentTile(tileB);
