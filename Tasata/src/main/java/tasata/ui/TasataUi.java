@@ -1,15 +1,14 @@
 package tasata.ui;
 
-import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tasata.dao.FileLevelDao;
 import tasata.domain.Game;
-import tasata.domain.Tile;
+import tasata.domain.EventListener;
+import tasata.domain.GameEvent;
 
 
-public class TasataUi extends Application implements UiEventListener {
+public class TasataUi extends Application implements EventListener {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 600;
     
@@ -21,9 +20,8 @@ public class TasataUi extends Application implements UiEventListener {
     
     public void loadLevel(String levelId) {
         if (game.loadLevel(levelId)) {
-            gameScene = new GameScene(WIDTH, HEIGHT, game.getCurrentLevel().getConnections());
+            gameScene.setConnections(game.getCurrentLevel().getConnections());
             gameScene.createTiles(game.getCurrentLevel().getTileSet());
-            gameScene.addListener(this);
             window.setScene(gameScene.getScene());
         } else {
             System.out.println("Error loading level");
@@ -36,41 +34,39 @@ public class TasataUi extends Application implements UiEventListener {
         FileLevelDao dao = new FileLevelDao("assets/Levels.json");
         //FakeLevelDao dao = new FakeLevelDao();
         game = new Game(dao);
+        game.addListener(this);
+        
+        gameScene = new GameScene(WIDTH, HEIGHT);
+        gameScene.addListener(this);
+        gameScene.addListener(game);
         
         menuScene = new MenuScene(WIDTH, HEIGHT);
         menuScene.addListener(this);
-        window.setScene(menuScene.getScene());
         
-        //loadLevel(currentLevel);
+        window.setScene(menuScene.getScene());
         window.show();
     }
     
     @Override
-    public void onUiEvent(String[] args) {
-        switch (args[0]) {
-            case "TilePressed":
-                game.getCurrentLevel().getTile(args[1]).disperseTile();
-                gameScene.updateTiles(game.getCurrentLevel().getTileSet());
-                if (game.isSolved()) {
-                    System.out.println("level solved");
-                    gameScene.displayPopMenu();
-                }   break;
-            case "ResetPressed":
-                loadLevel(currentLevel);
-                ArrayList<Tile> ts = game.getCurrentLevel().getTileSet();
-                gameScene.updateTiles(game.getCurrentLevel().getTileSet());
-                break;
-            case "BackToMenu":
+    public void onEvent(GameEvent event, String attribute) {
+        switch (event) {
+            case MENU_SCENE:
                 System.out.println("Back to menu");
                 window.setScene(menuScene.getScene());
                 break;
-            case "NextLevel":
+            case NEXT_LEVEL:
                 System.out.println("Next Level Please");
                 break;
-            case "LoadLevel":
-                System.out.println("Load Level " + args[1] + " Please");
-                currentLevel = args[1];
+            case LOAD_LEVEL:
+                System.out.println("Load Level " + attribute + " Please");
+                currentLevel = attribute;
                 loadLevel(currentLevel);
+                break;
+            case STATE_CHANGE:
+                gameScene.updateTiles(game.getCurrentLevel().getTileSet());
+                if (game.isSolved()) {
+                    gameScene.displayPopMenu();
+                }
                 break;
             default:
                 break;

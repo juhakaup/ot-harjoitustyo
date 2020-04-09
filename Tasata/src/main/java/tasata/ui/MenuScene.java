@@ -1,6 +1,7 @@
 
 package tasata.ui;
 
+import tasata.domain.EventListener;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.Event;
@@ -11,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import tasata.domain.GameEvent;
 
 public class MenuScene implements EventHandler {
 
@@ -18,7 +20,7 @@ public class MenuScene implements EventHandler {
     private final BorderPane root;
     private final Button level1;
     private final Button level2;
-    private final List<UiEventListener> listeners = new ArrayList<>();
+    private final List<EventListener> listeners = new ArrayList<>();
 
     public MenuScene(int width, int height) {
         System.out.println("this is menu scene");
@@ -50,7 +52,7 @@ public class MenuScene implements EventHandler {
         return this.scene;
     }
     
-    public void addListener(UiEventListener listener) {
+    public void addListener(EventListener listener) {
         if (listener != null) {
             listeners.add(listener);
         }
@@ -62,18 +64,18 @@ public class MenuScene implements EventHandler {
             Button button = (Button) event.getSource();
             String[] args = new String[2];
             if(button == level1) {
-                args[0] = "LoadLevel";
-                args[1] = "A01";
+                notifyListeners(GameEvent.LOAD_LEVEL, "A01");
             }
             if(button == level2) {
-                args[0] = "LoadLevel";
-                args[1] = "A02";
-            }
-            
-            for (UiEventListener listener : listeners) {
-                listener.onUiEvent(args);
+                notifyListeners(GameEvent.LOAD_LEVEL, "A02");
             }
         }
+    }
+    
+    private void notifyListeners(GameEvent event, String attribute) {
+        for (EventListener listener : listeners) {
+                listener.onEvent(event, attribute);
+            }
     }
     
 }

@@ -2,19 +2,20 @@ package tasata.domain;
 
 import java.util.ArrayList;
 import tasata.dao.LevelDao;
-import tasata.ui.UiEventListener;
+import tasata.domain.GameEvent;
 
 /**
  * This class handles the game logic and services
  */
-public class Game implements UiEventListener {
-
+public class Game implements EventListener {
     private Level currentLevel;
     private LevelDao levelDao;
     private int moves;
+    private ArrayList<EventListener> listeners;
 
     public Game(LevelDao levelDao) {
         this.levelDao = levelDao;
+        this.listeners = new ArrayList<>();
     }
 
     /**
@@ -27,6 +28,7 @@ public class Game implements UiEventListener {
         Level level = levelDao.findLevelById(levelId);
         if (level != null) {
             currentLevel = level;
+//            notiyListeners("LevelLoaded", levelId);
             return true;
         }
         return false;
@@ -56,10 +58,41 @@ public class Game implements UiEventListener {
         return true;
     }
 
-    @Override
-    public void onUiEvent(String[] args) {
-        if (args[0].equals("TilePressed")) {
-            moves++;
+    private boolean disperseTile(String id) {
+        Tile tile = currentLevel.getTile(id);
+        if (tile != null) {
+            tile.disperseTile();
+            return true;
+        }
+        return false;
+    }
+
+    public void addListener(EventListener listener) {
+        this.listeners.add(listener);
+    }
+
+    private void notiyListeners(GameEvent event, String attribute) {
+        for (EventListener listener : this.listeners) {
+            listener.onEvent(event, attribute);
         }
     }
+
+    @Override
+    public void onEvent(GameEvent event, String args) {
+        switch (event) {
+            case TILE_PRESS:
+                if (disperseTile(args)) {
+                    moves++;
+                    notiyListeners(GameEvent.STATE_CHANGE, "");
+                }
+                break;
+            case RESET_LEVEL:
+                loadLevel(currentLevel.getId());
+                notiyListeners(GameEvent.STATE_CHANGE, "");
+                break;
+            default:
+                break;
+        }
+    }
+    
 }

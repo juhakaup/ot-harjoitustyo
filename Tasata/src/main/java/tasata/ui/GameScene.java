@@ -1,5 +1,6 @@
 package tasata.ui;
 
+import tasata.domain.EventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+import tasata.domain.GameEvent;
 import tasata.domain.Tile;
 
 public class GameScene implements EventHandler {
@@ -28,41 +30,46 @@ public class GameScene implements EventHandler {
     private static final double[][] DIR = new double[][]{
         {}, {0.5, -0.87}, {1, 0}, {0.5, 0.87}, {-0.5, 0.87}, {-1, 0}, {-0.5, -0.87}};
     private final StackPane gameSegment;
-    private final String[][] connections;
-    private final HashMap<String, Button> uiTiles;
-    private final List<UiEventListener> listeners = new ArrayList<>();
+    private String[][] connections;
+    private HashMap<String, Button> uiTiles;
+    private final List<EventListener> listeners = new ArrayList<>();
 
     private final GridPane titleSegment;
     private final BorderPane root;
     private final Scene scene;
+    private VBox popMenu;
     private final Text movesText;
     private int moves = 0;
     private final Button resetLevel;
     private Button displayMenu;
     private Button popReset;
-    private Button popMenu;
+    private Button enablePopMenu;
     private Button popNext;
     private final int WIDTH;
     private final int HEIGHT;
 
-    public GameScene(int width, int height, String[][] connections) {
+    public GameScene(int width, int height) {
         this.HEIGHT = height;
         this.WIDTH = width;
+        
+        // Area for puzzle
         gameSegment = new StackPane();
-        this.connections = connections;
-        uiTiles = new HashMap<>();
-
+        
+        // Title
         titleSegment = new GridPane();
         titleSegment.setPadding(new Insets(10, 10, 10, 10));
         titleSegment.setMinSize(width, 30);
         titleSegment.setHgap(20);
         titleSegment.setAlignment(Pos.CENTER);
+        Text titleText = new Text(10, 90, "TaSaTa");
+        movesText = new Text(10, 90, "0");
+        titleSegment.add(titleText, 0, 0);
+        titleSegment.add(movesText, 2, 0);
+        GridPane.setHalignment(titleText, HPos.LEFT);
+        GridPane.setHalignment(movesText, HPos.RIGHT);
 
         root = new BorderPane();
         scene = new Scene(root, width, height);
-
-        Text titleText = new Text(10, 90, "TaSaTa");
-        movesText = new Text(10, 90, "0");
 
         resetLevel = new Button("Restart");
         resetLevel.setUserData("ResetLevel");
@@ -73,10 +80,6 @@ public class GameScene implements EventHandler {
             displayPopMenu();
         });
 
-        titleSegment.add(titleText, 0, 0);
-        titleSegment.add(movesText, 2, 0);
-        GridPane.setHalignment(titleText, HPos.LEFT);
-        GridPane.setHalignment(movesText, HPos.RIGHT);
 
         HBox controls = new HBox();
         controls.getChildren().add(resetLevel);
@@ -90,19 +93,23 @@ public class GameScene implements EventHandler {
     public Scene getScene() {
         return this.scene;
     }
+    
+    public void setConnections(String[][] connections) {
+        this.connections = connections;
+    }
 
     public void displayPopMenu() {
         disableTiles();
         popReset = new Button("Retry");
         popReset.setOnAction(this);
-        popMenu = new Button("Back to menu");
-        popMenu.setOnAction(this);
+        enablePopMenu = new Button("Back to menu");
+        enablePopMenu.setOnAction(this);
         popNext = new Button("Next");
         popNext.setOnAction(this);
 
         HBox hbox = new HBox();
         hbox.getChildren().add(popReset);
-        hbox.getChildren().add(popMenu);
+        hbox.getChildren().add(enablePopMenu);
         hbox.getChildren().add(popNext);
         hbox.setSpacing(10);
         hbox.setAlignment(Pos.CENTER);
@@ -135,6 +142,7 @@ public class GameScene implements EventHandler {
 
     public void createTiles(ArrayList<Tile> tiles) {
         gameSegment.getChildren().clear();
+        uiTiles = new HashMap<>();
 
         for (Tile tile : tiles) {
             Button button = new Button(Integer.toString(tile.getValue()));
@@ -193,7 +201,7 @@ public class GameScene implements EventHandler {
         }
     }
 
-    public void addListener(UiEventListener listener) {
+    public void addListener(EventListener listener) {
         if (listener != null) {
             listeners.add(listener);
         }
@@ -206,21 +214,23 @@ public class GameScene implements EventHandler {
             String[] args = new String[2];
 
             if (b == resetLevel || b == popReset) {
-                args = new String[]{"ResetPressed", ""};
+                notifyListeners(GameEvent.RESET_LEVEL, "");
             } else if (uiTiles.containsKey(String.valueOf(b.getUserData()))) {
                 moves++;
                 movesText.setText(Integer.toString(moves));
-                args = new String[]{"TilePressed", String.valueOf(b.getUserData())};
-            } else if (b == popMenu) {
-                args = new String[]{"BackToMenu", ""};
+                notifyListeners(GameEvent.TILE_PRESS, String.valueOf(b.getUserData()));
+            } else if (b == enablePopMenu) {
+                notifyListeners(GameEvent.POPUP_MENU, "");
             } else if (b == popNext) {
-                args = new String[]{"NextLevel", ""};
-            }
-
-            for (UiEventListener listener : listeners) {
-                listener.onUiEvent(args);
-            }
+                notifyListeners(GameEvent.NEXT_LEVEL, "");
+            } 
         }
+    }
+    
+    private void notifyListeners(GameEvent event, String attribute) {
+        for (EventListener listener : listeners) {
+                listener.onEvent(event, attribute);
+            }
     }
 
 }
