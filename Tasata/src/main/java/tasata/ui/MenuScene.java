@@ -4,8 +4,6 @@ package tasata.ui;
 import tasata.domain.EventListener;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,43 +11,52 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import tasata.domain.GameEvent;
+import tasata.domain.Level;
 
-public class MenuScene implements EventHandler {
+public class MenuScene {
 
-    private Scene scene;
+    private final Scene scene;
     private final BorderPane root;
-    private final Button level1;
-    private final Button level2;
     private final List<EventListener> listeners = new ArrayList<>();
+    private final ArrayList<Level> levels;
+    private final VBox levelList;
 
-    public MenuScene(int width, int height) {
-        System.out.println("this is menu scene");
+    public MenuScene(int width, int height, ArrayList<Level> levels) {
         root = new BorderPane();
         scene = new Scene(root, width, height);
+        this.levels = levels;
+        this.levelList = new VBox();
+        this.levelList.setAlignment(Pos.CENTER);
         
-        level1 = new Button("Level 1");
-        level1.setOnAction(this);
-        level2 = new Button("Level 2");
-        level2.setOnAction(this);
+        createLevelList();
         
-        VBox vBox = new VBox();
+        VBox menuElements = new VBox();
         Text title = new Text("TaSaTa");
         title.setStyle("-fx-font: 22px Tahoma");
         title.setTranslateY(-50);
         Text inst = new Text("Select level to play!");
         inst.setTranslateY(-10);
+        menuElements.getChildren().addAll(title, inst, levelList);
+        menuElements.setAlignment(Pos.CENTER);
         
-        vBox.getChildren().add(title);
-        vBox.getChildren().add(inst);
-        vBox.getChildren().add(level1);
-        vBox.getChildren().add(level2);
-        vBox.setAlignment(Pos.CENTER);
-        
-        root.setCenter(vBox);
+        root.setCenter(menuElements);
     }
     
     public Scene getScene() {
         return this.scene;
+    }
+    
+    private void createLevelList() {
+        for (Level level : levels) {
+            Button button = new Button(level.getId());
+            button.setUserData(level.getId());
+            
+            button.setOnAction(e -> {
+                notifyListeners(GameEvent.LOAD_LEVEL, level.getId());
+            });
+            
+            levelList.getChildren().add(button);
+        }
     }
     
     public void addListener(EventListener listener) {
@@ -58,19 +65,6 @@ public class MenuScene implements EventHandler {
         }
     }
     
-    @Override
-    public void handle(Event event) {
-        if (event.getSource() instanceof Button) {
-            Button button = (Button) event.getSource();
-            String[] args = new String[2];
-            if(button == level1) {
-                notifyListeners(GameEvent.LOAD_LEVEL, "A01");
-            }
-            if(button == level2) {
-                notifyListeners(GameEvent.LOAD_LEVEL, "A02");
-            }
-        }
-    }
     
     private void notifyListeners(GameEvent event, String attribute) {
         for (EventListener listener : listeners) {

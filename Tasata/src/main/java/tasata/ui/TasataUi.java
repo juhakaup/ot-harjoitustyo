@@ -40,7 +40,7 @@ public class TasataUi extends Application implements EventListener {
         gameScene.addListener(this);
         gameScene.addListener(game);
         
-        menuScene = new MenuScene(WIDTH, HEIGHT);
+        menuScene = new MenuScene(WIDTH, HEIGHT, game.getCurrentLevels());
         menuScene.addListener(this);
         
         window.setScene(menuScene.getScene());
@@ -65,7 +65,7 @@ public class TasataUi extends Application implements EventListener {
             case STATE_CHANGE:
                 gameScene.updateTiles(game.getCurrentLevel().getTileSet());
                 if (game.isSolved()) {
-                    gameScene.createPopupMenu();
+                    gameScene.levelSolved();
                 }
                 break;
             default:

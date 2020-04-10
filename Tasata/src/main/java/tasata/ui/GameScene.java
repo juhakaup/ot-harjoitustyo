@@ -4,8 +4,6 @@ import tasata.domain.EventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,7 +23,7 @@ import javafx.scene.text.Text;
 import tasata.domain.GameEvent;
 import tasata.domain.Tile;
 
-public class GameScene implements EventHandler {
+public class GameScene /*implements EventHandler*/ {
 
     private static final double TILEMAXSIZE = 65;
     private static final double[][] DIR = new double[][]{
@@ -42,7 +40,7 @@ public class GameScene implements EventHandler {
     private final Text movesText;
     private int moves = 0;
     private final Button resetLevel;
-    private Button displayMenu;
+    private final Button displayMenu;
     private Button popReset;
     private Button enablePopMenu;
     private Button popNext;
@@ -76,8 +74,9 @@ public class GameScene implements EventHandler {
         scene = new Scene(root, width, height);
 
         resetLevel = new Button("Restart");
-        resetLevel.setUserData("ResetLevel");
-        resetLevel.setOnAction(this);
+        resetLevel.setOnAction(e -> {
+            notifyListeners(GameEvent.RESET_LEVEL, "");
+        });
 
         displayMenu = new Button("Menu");
         displayMenu.setOnAction(e -> {
@@ -87,6 +86,7 @@ public class GameScene implements EventHandler {
         
         popMenu = createPopupMenu();
         popMenu.setVisible(false);
+        gameSegment.getChildren().add(popMenu);
         
         HBox controls = new HBox();
         controls.getChildren().add(resetLevel);
@@ -110,33 +110,46 @@ public class GameScene implements EventHandler {
         
     }
 
-    public VBox createPopupMenu() {
+    private VBox createPopupMenu() {
         popReset = new Button("Retry");
-        popReset.setOnAction(this);
+        popReset.setOnAction(e ->{
+            notifyListeners(GameEvent.RESET_LEVEL, "");
+            popMenu.setVisible(false);
+            gameTiles.setDisable(false);
+        });
+        
         enablePopMenu = new Button("Back to menu");
-        enablePopMenu.setOnAction(this);
+        enablePopMenu.setOnAction(e-> {
+            notifyListeners(GameEvent.MENU_SCENE, "");
+            popMenu.setVisible(false);
+            gameTiles.setDisable(false);
+        });
+        
         popNext = new Button("Next");
-        popNext.setOnAction(this);
+        popNext.setOnAction(e -> {
+            System.out.println("next level please");
+        });
 
-        HBox hbox = new HBox();
-        hbox.getChildren().addAll(popReset, enablePopMenu, popNext);
-        hbox.setSpacing(10);
-        hbox.setAlignment(Pos.CENTER);
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(popReset, enablePopMenu, popNext);
+        buttons.setSpacing(10);
+        buttons.setAlignment(Pos.CENTER);
 
-        VBox vbox = new VBox();
-        vbox.setMaxWidth(WIDTH * 0.7);
-        vbox.setMaxHeight(WIDTH * .25);
-        vbox.setStyle("-fx-background-color: rgba(0, 102, 204, 0.5); -fx-background-radius: 10;");
-        vbox.setAlignment(Pos.CENTER);
-        Text text = new Text("Level Solved!");
-        text.setStyle("-fx-font: 22px Tahoma");
-        text.setFill(Color.WHITESMOKE);
-        text.setTranslateY(-10);
+        VBox background = new VBox();
+        background.setMaxWidth(WIDTH * 0.7);
+        background.setMaxHeight(WIDTH * .25);
+        background.setStyle("-fx-background-color: rgba(0, 102, 204, 0.5); -fx-background-radius: 10;");
+        background.setAlignment(Pos.CENTER);
+        
+        Text title = new Text("Level Solved!");
+        title.setStyle("-fx-font: 22px Tahoma");
+        title.setFill(Color.WHITESMOKE);
+        title.setTranslateY(-10);
 
-        vbox.getChildren().add(text);
-        vbox.getChildren().add(hbox);
+        background.getChildren().add(title);
+        background.getChildren().add(buttons);
 
-        return vbox;
+        return background;
     }
 
     public void createTiles(ArrayList<Tile> tiles) {
@@ -146,13 +159,14 @@ public class GameScene implements EventHandler {
         for (Tile tile : tiles) {
             Button button = new Button(Integer.toString(tile.getValue()));
             button.setUserData(tile.getId());
-            button.setOnAction(this);
+            button.setOnAction(e-> {
+                notifyListeners(GameEvent.TILE_PRESS, tile.getId());
+            });
             button.setPrefSize(55, 64);
             uiTiles.put(tile.getId(), button);
             button.setShape(createHexagon());
             gameTiles.getChildren().add(button);
         }
-        gameSegment.getChildren().add(popMenu);
         updateTilePositions();
         moves = 0;
     }
@@ -212,31 +226,11 @@ public class GameScene implements EventHandler {
             listeners.add(listener);
         }
     }
-
-    @Override
-    public void handle(Event event) {
-        if (event.getSource() instanceof Button) {
-            Button b = (Button) event.getSource();
-            String[] args = new String[2];
-
-            if (b == resetLevel || b == popReset) {
-                notifyListeners(GameEvent.RESET_LEVEL, "");
-            } else if (uiTiles.containsKey(String.valueOf(b.getUserData()))) {
-                moves++;
-                movesText.setText(Integer.toString(moves));
-                notifyListeners(GameEvent.TILE_PRESS, String.valueOf(b.getUserData()));
-            } else if (b == enablePopMenu) {
-                notifyListeners(GameEvent.POPUP_MENU, "");
-            } else if (b == popNext) {
-                notifyListeners(GameEvent.NEXT_LEVEL, "");
-            } 
-        }
-    }
     
     private void notifyListeners(GameEvent event, String attribute) {
         for (EventListener listener : listeners) {
-                listener.onEvent(event, attribute);
-            }
+            listener.onEvent(event, attribute);
+        }
     }
 
 }

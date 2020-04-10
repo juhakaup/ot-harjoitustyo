@@ -2,13 +2,14 @@ package tasata.domain;
 
 import java.util.ArrayList;
 import tasata.dao.LevelDao;
-import tasata.domain.GameEvent;
 
 /**
  * This class handles the game logic and services
  */
+
 public class Game implements EventListener {
     private Level currentLevel;
+    private Pack currentPack;
     private LevelDao levelDao;
     private int moves;
     private ArrayList<EventListener> listeners;
@@ -16,6 +17,10 @@ public class Game implements EventListener {
     public Game(LevelDao levelDao) {
         this.levelDao = levelDao;
         this.listeners = new ArrayList<>();
+        
+        this.currentPack = new Pack("StarterPack");
+        currentPack.addLevel(levelDao.findLevelById("A01"));
+        currentPack.addLevel(levelDao.findLevelById("A02"));
     }
 
     /**
@@ -37,6 +42,14 @@ public class Game implements EventListener {
     public Level getCurrentLevel() {
         return this.currentLevel;
     }
+    
+    public ArrayList<Level> getCurrentLevels() {
+        return currentPack.getLevels();
+    }
+    
+//    public State getLevelState(String levelId) {
+//        return currentPack.getState(levelId);
+//    }
 
     public int getMoves() {
         return moves;
