@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,7 +34,7 @@ public class GameScene implements EventHandler {
     private String[][] connections;
     private HashMap<String, Button> uiTiles;
     private final List<EventListener> listeners = new ArrayList<>();
-
+    private Group gameTiles;
     private final GridPane titleSegment;
     private final BorderPane root;
     private final Scene scene;
@@ -54,6 +55,9 @@ public class GameScene implements EventHandler {
         
         // Area for puzzle
         gameSegment = new StackPane();
+        gameTiles = new Group();
+        gameSegment.getChildren().add(gameTiles);
+        
         
         // Title
         titleSegment = new GridPane();
@@ -77,10 +81,13 @@ public class GameScene implements EventHandler {
 
         displayMenu = new Button("Menu");
         displayMenu.setOnAction(e -> {
-            displayPopMenu();
+            popMenu.setVisible(!popMenu.visibleProperty().getValue());
+            gameTiles.setDisable(!gameTiles.disableProperty().get());
         });
-
-
+        
+        popMenu = createPopupMenu();
+        popMenu.setVisible(false);
+        
         HBox controls = new HBox();
         controls.getChildren().add(resetLevel);
         controls.getChildren().add(displayMenu);
@@ -97,9 +104,13 @@ public class GameScene implements EventHandler {
     public void setConnections(String[][] connections) {
         this.connections = connections;
     }
+    
+    public void levelSolved() {
+        popMenu.setVisible(true);
+        
+    }
 
-    public void displayPopMenu() {
-        disableTiles();
+    public VBox createPopupMenu() {
         popReset = new Button("Retry");
         popReset.setOnAction(this);
         enablePopMenu = new Button("Back to menu");
@@ -108,12 +119,9 @@ public class GameScene implements EventHandler {
         popNext.setOnAction(this);
 
         HBox hbox = new HBox();
-        hbox.getChildren().add(popReset);
-        hbox.getChildren().add(enablePopMenu);
-        hbox.getChildren().add(popNext);
+        hbox.getChildren().addAll(popReset, enablePopMenu, popNext);
         hbox.setSpacing(10);
         hbox.setAlignment(Pos.CENTER);
-        //hbox.setStyle("-fx-background-color: #ecf2f9;");
 
         VBox vbox = new VBox();
         vbox.setMaxWidth(WIDTH * 0.7);
@@ -128,20 +136,11 @@ public class GameScene implements EventHandler {
         vbox.getChildren().add(text);
         vbox.getChildren().add(hbox);
 
-        gameSegment.getChildren().add(vbox);
-    }
-
-    public void disableTiles() {
-        System.out.println("Disable tiles unimplemented");
-    }
-
-    public void enableTiles() {
-        System.out.println("Enable tiles unimplemented");
-
+        return vbox;
     }
 
     public void createTiles(ArrayList<Tile> tiles) {
-        gameSegment.getChildren().clear();
+        gameTiles.getChildren().clear();
         uiTiles = new HashMap<>();
 
         for (Tile tile : tiles) {
@@ -151,8 +150,9 @@ public class GameScene implements EventHandler {
             button.setPrefSize(55, 64);
             uiTiles.put(tile.getId(), button);
             button.setShape(createHexagon());
-            gameSegment.getChildren().add(button);
+            gameTiles.getChildren().add(button);
         }
+        gameSegment.getChildren().add(popMenu);
         updateTilePositions();
         moves = 0;
     }
@@ -184,20 +184,26 @@ public class GameScene implements EventHandler {
 
             double originX = tile1.getTranslateX();
             double originY = tile1.getTranslateY();
+//            double originX = tile1.getLayoutX();
+//            double originY = tile1.getLayoutY();
+            
 
             double newPosX = originX + DIR[direction][0] * TILEMAXSIZE;
             double newPosY = originY + DIR[direction][1] * TILEMAXSIZE;
 
             tile2.setTranslateX(newPosX);
             tile2.setTranslateY(newPosY);
+//            tile2.setLayoutX(newPosX);
+//            tile2.setLayoutY(newPosY);
 
-            Line line = new Line(originX, originY, originX + DIR[direction][0] * 5,
+            Line line = new Line(originX, originY, 
+                    originX + DIR[direction][0] * 5,
                     originY + DIR[direction][1] * 5);
             line.setStrokeWidth(4.0);
             line.setStroke(Color.DARKGRAY);
             line.setTranslateX(originX + DIR[direction][0] * (TILEMAXSIZE / 2));
             line.setTranslateY(originY + DIR[direction][1] * (TILEMAXSIZE / 2));
-            gameSegment.getChildren().add(line);
+            gameTiles.getChildren().add(line);
         }
     }
 

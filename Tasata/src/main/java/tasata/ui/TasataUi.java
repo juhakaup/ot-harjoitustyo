@@ -65,7 +65,7 @@ public class TasataUi extends Application implements EventListener {
             case STATE_CHANGE:
                 gameScene.updateTiles(game.getCurrentLevel().getTileSet());
                 if (game.isSolved()) {
-                    gameScene.displayPopMenu();
+                    gameScene.createPopupMenu();
                 }
                 break;
             default:
