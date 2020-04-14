@@ -6,12 +6,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import tasata.domain.Level;
-import tasata.domain.Tile;
 
 /**
  * This class handles the level loading from a file
  */
-
 public class FileLevelDao implements LevelDao {
 
     private static File file;
@@ -23,6 +21,10 @@ public class FileLevelDao implements LevelDao {
         if (!file.exists()) {
             System.out.println("No such file");
         }
+    }
+
+    @Override
+    public Level findLevelById(String id) {
 
         InputStreamReader reader;
         try {
@@ -37,26 +39,13 @@ public class FileLevelDao implements LevelDao {
         } catch (Exception e) {
             System.out.println("error in file level dao");
         }
-    }
 
-    @Override
-    public Level findLevelById(String id) {
         for (Level level : levels) {
             if (level.equals(id)) {
-                return createCopy(level);
+                return level;
             }
         }
         return null;
     }
 
-    private Level createCopy(Level level) {
-        Level newLevel = new Level(level.getId());
-        
-        level.getTileSet().forEach((t) -> {
-            newLevel.addTile(new Tile(t.getId(), t.getValue()));
-        });
-        newLevel.createTileConnections(level.getConnections());
-
-        return newLevel;
-    }
 }
