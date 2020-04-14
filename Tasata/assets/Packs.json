@@ -1,0 +1,20 @@
+[
+    {
+        "packId":"TestPack",
+        "levels":{
+            "TestData":"AVAILABLE",
+            "A02":"LOCKED"
+        },
+        "unlocks":[]
+    },
+    {
+        "packId":"StarterPack",
+        "levels":{
+            "A01":"AVAILABLE",
+            "A02":"LOCKED"
+        },
+        "unlocks":{
+            "A01":["A02"]
+        }
+    }
+]
