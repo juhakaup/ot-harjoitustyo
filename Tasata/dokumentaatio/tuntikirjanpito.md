@@ -16,4 +16,7 @@
 | 5.4.  | 3    | Ui luokkien viilaamista |
 | 7.4.  | 4    | Testejä pelilogiikalle ja kentälle, checkstyle |
 | 7.4.  | 1    | Menuscene |
-| yht   | 38   | | 
+| 10.4. | 3    | Menuscenen viilausta, kenttäsetit, JavaFX eventtien poistaminen - tilalle oma eventListener |
+| 13.4. | 2    | Pack-luokan iterointia, kentäsettien lataaminen tiedostosta |
+| 14.4. | 4    | Kenttäsetit pelilogiikkaan ja käyttöliittymään |
+| yht   | 47   | | 
