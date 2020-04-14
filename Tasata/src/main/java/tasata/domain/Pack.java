@@ -1,50 +1,51 @@
 package tasata.domain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+import tasata.dao.LevelDao;
 
 /**
- *
+ * This class handles a group of levels, unlocking and storing state of 
+ * each level in the pack
  */
-public class Pack extends Level {
+public class Pack {
 
-    private Map<Integer, Map<String, String[]>> unlocks;
-    private ArrayList<Level> levels;
-    private Map<Level, State> state;
+    private String packId;
+    private Map<String, State> levels;
+    private Map<String, String[]> unlocks;
+    private final LevelDao levelDao;
 
-    public Pack(String id) {
-        super(id);
-        this.levels = new ArrayList<>();
-        this.unlocks = new HashMap<>();
-        this.state = new HashMap<>();
-
-        this.unlocks.put(1, new HashMap<String, String[]>() {
-            {
-                put("A01", new String[]{"A02"});
-            }
-        });
-        this.unlocks.put(2, new HashMap<String, String[]>() {
-            {
-                put("A02", new String[]{"A03"});
-            }
-        });
+    public Pack(LevelDao levelDao) {
+        this.levelDao = levelDao;
     }
-    
-    public void addLevel(Level level) {
-        this.levels.add(level);
-        this.state.put(level, State.LOCKED);
+
+    public String getId() {
+        return this.packId;
     }
-    
-    public ArrayList<Level> getLevels() {
+
+    public ArrayList<String[]> getLevels() {
+        ArrayList<String[]> list = new ArrayList<>();
+        for (String key : this.levels.keySet()) {
+            list.add(new String[]{key, key + ": " + levelDao.findLevelById(key).getDescription()});
+        }
+        return list;
+    }
+
+    public Map<String, State> getPackState() {
         return this.levels;
     }
+
+    /**
+     * Sets the status of the levels assosiated to given level to available
+     * @param id id of the level that was completed
+     */
     
-    public State getState(Level level) {
-        if(this.state.containsKey(level)) {
-            return this.state.get(level);
+    void unlock(String id) {
+        if (unlocks.containsKey(id)) {
+            for(String level : unlocks.get(id)) {
+                this.levels.put(level, State.AVAILABLE);
+            }
         }
-        return null;
     }
-    
+
 }

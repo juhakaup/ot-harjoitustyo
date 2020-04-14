@@ -23,7 +23,7 @@ import javafx.scene.text.Text;
 import tasata.domain.GameEvent;
 import tasata.domain.Tile;
 
-public class GameScene /*implements EventHandler*/ {
+public class GameScene {
 
     private static final double TILEMAXSIZE = 65;
     private static final double[][] DIR = new double[][]{
@@ -54,6 +54,9 @@ public class GameScene /*implements EventHandler*/ {
         // Area for puzzle
         gameSegment = new StackPane();
         gameTiles = new Group();
+//        gameTiles.setAutoSizeChildren(false);
+        gameTiles.prefHeight(WIDTH);
+        gameTiles.prefWidth(WIDTH);
         gameSegment.getChildren().add(gameTiles);
         
         
@@ -210,13 +213,20 @@ public class GameScene /*implements EventHandler*/ {
 //            tile2.setLayoutX(newPosX);
 //            tile2.setLayoutY(newPosY);
 
-            Line line = new Line(originX, originY, 
-                    originX + DIR[direction][0] * 5,
-                    originY + DIR[direction][1] * 5);
+//            Line line = new Line(originX, originY, 
+//                    originX + DIR[direction][0] * 5,
+//                    originY + DIR[direction][1] * 5);
+            Line line = new Line(
+                    tile1.getTranslateX() + 0.5 * TILEMAXSIZE, 
+                    tile1.getTranslateY() + 0.5 * TILEMAXSIZE, 
+                    tile2.getTranslateX() + 0.5 * TILEMAXSIZE,
+                    tile2.getTranslateY() + 0.5 * TILEMAXSIZE
+            );
+//            System.out.println(line.getLayoutX() + " " + line.getLayoutY());
             line.setStrokeWidth(4.0);
             line.setStroke(Color.DARKGRAY);
-            line.setTranslateX(originX + DIR[direction][0] * (TILEMAXSIZE / 2));
-            line.setTranslateY(originY + DIR[direction][1] * (TILEMAXSIZE / 2));
+//            line.setTranslateX(originX + DIR[direction][0] * (TILEMAXSIZE / 2));
+//            line.setTranslateY(originY + DIR[direction][1] * (TILEMAXSIZE / 2));
             gameTiles.getChildren().add(line);
         }
     }

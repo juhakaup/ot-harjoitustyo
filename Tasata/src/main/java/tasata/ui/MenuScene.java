@@ -3,31 +3,37 @@ package tasata.ui;
 
 import tasata.domain.EventListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import tasata.domain.GameEvent;
-import tasata.domain.Level;
+import tasata.domain.State;
 
 public class MenuScene {
 
     private final Scene scene;
     private final BorderPane root;
     private final List<EventListener> listeners = new ArrayList<>();
-    private final ArrayList<Level> levels;
+    private final ArrayList<String[]> levels;
+    private Map<String, Node> levelNodes;
     private final VBox levelList;
 
-    public MenuScene(int width, int height, ArrayList<Level> levels) {
+    public MenuScene(int width, int height, ArrayList<String[]> levels) {
         root = new BorderPane();
         scene = new Scene(root, width, height);
         this.levels = levels;
         this.levelList = new VBox();
         this.levelList.setAlignment(Pos.CENTER);
         
+        levelNodes = new HashMap<>();
         createLevelList();
         
         VBox menuElements = new VBox();
@@ -47,15 +53,30 @@ public class MenuScene {
     }
     
     private void createLevelList() {
-        for (Level level : levels) {
-            Button button = new Button(level.getId());
-            button.setUserData(level.getId());
+        for (String[] level : levels) {
+            Button button = new Button(level[1]);
+            button.setUserData(level[0]);
             
             button.setOnAction(e -> {
-                notifyListeners(GameEvent.LOAD_LEVEL, level.getId());
+                notifyListeners(GameEvent.LOAD_LEVEL, level[0]);
             });
             
             levelList.getChildren().add(button);
+            levelNodes.put(level[0], button);
+        }
+    }
+    
+    public void updateLevelList(Map<String, State> states) {
+        
+        for (String id : states.keySet()) {
+            if (!levelNodes.containsKey(id)) continue;
+            
+            State state = states.get(id);
+            if(state == State.LOCKED) {
+                levelNodes.get(id).setDisable(true);
+            } else {
+                levelNodes.get(id).setDisable(false);
+            }
         }
     }
     

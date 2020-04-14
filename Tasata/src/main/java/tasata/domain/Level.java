@@ -6,14 +6,11 @@ import java.util.ArrayList;
  * This class represents a single level of the game
  */
 public class Level {
-    private ArrayList<Tile> tileSet;
-    private String levelId;
-    //private int[][] connections;
-    
+    private final ArrayList<Tile> tileSet;
+    private final String levelId;
     private String description;
     private String[][] connections;
     private int moves;
-    
     
     public Level(String id) {
         levelId = id;
@@ -26,6 +23,14 @@ public class Level {
     
     public String getId() {
         return this.levelId;
+    }
+    
+    public int getMoves() {
+        return this.moves;
+    }
+    
+    public String getDescription() {
+        return this.description;
     }
     
     /**
