@@ -10,4 +10,6 @@ public interface PackDao {
     
     Pack findPackById(String id);
     
+    void saveProgress(Pack pack);
+    
 }

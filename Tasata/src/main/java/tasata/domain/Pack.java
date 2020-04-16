@@ -36,7 +36,7 @@ public class Pack {
     }
 
     /**
-     * Sets the status of the levels assosiated to given level to available
+     * Sets the status of the levels associated to given level to available
      * @param id id of the level that was completed
      */
     

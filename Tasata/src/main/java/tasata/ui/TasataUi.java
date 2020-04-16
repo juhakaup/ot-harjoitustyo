@@ -1,7 +1,9 @@
 package tasata.ui;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Properties;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import tasata.dao.FileLevelDao;
@@ -15,32 +17,48 @@ import tasata.domain.Tile;
 
 public class TasataUi extends Application implements EventListener {
     
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 600;
+    private static int WIDTH;
+    private static int HEIGHT;
     
     private Stage window;
     private Game game;
     private GameScene gameScene;
     private MenuScene menuScene; 
-    private String currentLevel = "A01";
+    private FileLevelDao levelDao;
+    private FilePackDao packDao;
+    private String startingPack;
     
     public void levelLoaded() {     
         gameScene.setConnections(game.getCurrentLevel().getConnections());
         gameScene.createTiles(game.getCurrentLevel().getTileSet());
-        window.setScene(gameScene.getScene());
+        window.setScene(gameScene.getScene());   
+    }
+    
+    @Override
+    public void init() throws Exception {
+        Properties properties = new Properties();
+
+        properties.load(new FileInputStream("config.properties"));
         
+        String levelFile = properties.getProperty("levelFile");
+        String packFile = properties.getProperty("packFile");
+        String progressFile = properties.getProperty("progressFile");
+        WIDTH = Integer.parseInt(properties.getProperty("screenWidth"));
+        HEIGHT = Integer.parseInt(properties.getProperty("screenHeight"));
+        startingPack = properties.getProperty("staringPack");
+        
+        levelDao = new FileLevelDao(levelFile);
+        packDao = new FilePackDao(packFile, progressFile, levelDao);
     }
     
     @Override
     public void start(Stage stage) throws Exception { 
         
         window = stage;
-        FileLevelDao levelDao = new FileLevelDao("assets/Levels.json");
-        FilePackDao packDao = new FilePackDao("assets/Packs.json", levelDao);
         
         game = new Game(levelDao, packDao);
         game.addListener(this);
-        game.loadLevelPack("StarterPack");
+        game.loadLevelPack(startingPack);
         
         gameScene = new GameScene(WIDTH, HEIGHT);
         gameScene.addListener(this);
@@ -66,7 +84,6 @@ public class TasataUi extends Application implements EventListener {
             case NEXT_LEVEL:
                 break;
             case LEVEL_LOADED:
-                currentLevel = (String) attribute;
                 levelLoaded();
                 break;
             case TILE_CHANGE:
