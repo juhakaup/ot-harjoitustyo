@@ -18,5 +18,7 @@
 | 7.4.  | 1    | Menuscene |
 | 10.4. | 3    | Menuscenen viilausta, kenttäsetit, JavaFX eventtien poistaminen - tilalle oma eventListener |
 | 13.4. | 2    | Pack-luokan iterointia, kentäsettien lataaminen tiedostosta |
-| 14.4. | 4    | Kenttäsetit pelilogiikkaan ja käyttöliittymään |
-| yht   | 47   | | 
+| 14.4. | 4    | Kenttäsetit pelilogiikkaan ja käyttöliittymään, testien päivitys |
+| 16.4. | 3    | Config-tiedosto. Pelin kulun talletuksen runko |
+| 17.4. | 2    | Pelin kulun talletuksen toiminnallisuus kuntoon |
+| yht   | 52   | | 
