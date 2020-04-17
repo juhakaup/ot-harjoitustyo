@@ -95,6 +95,7 @@ public class Game implements EventListener {
                 currentPack.unlock(currentLevel.getId());
                 notifyListeners(GameEvent.LEVEL_STATE_CHANGE, currentPack.getPackState());
                 notifyListeners(GameEvent.LEVEL_SOLVED, currentLevel.getId());
+                packDao.saveProgress(currentPack);
                 storeLevelState();
             }
             return true;

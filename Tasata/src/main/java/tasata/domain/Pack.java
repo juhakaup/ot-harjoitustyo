@@ -13,7 +13,8 @@ public class Pack {
     private String packId;
     private Map<String, State> levels;
     private Map<String, String[]> unlocks;
-    private final LevelDao levelDao;
+    
+    private transient final LevelDao levelDao;
 
     public Pack(LevelDao levelDao) {
         this.levelDao = levelDao;

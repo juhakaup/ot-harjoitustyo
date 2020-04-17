@@ -32,16 +32,29 @@ public class FilePackDao implements PackDao {
             System.out.println("Level file not found");
         }
         
+        packs = readFile(levelFile);
+        
         if (progressFile.exists()) {
-            System.out.println("found progress");
-            readFile(progressFile);
-        } else {
-            readFile(levelFile);
+            Pack[] packProgress = readFile(progressFile);
+            
+            for (int i = 0; i < packs.length; i++) {
+                for (Pack p : packProgress) {
+                    if (packs[i].getId().equals(p.getId())) {
+                        packs[i] = p;
+                    }
+                }
+            }
         }
+        
+//        if (progressFile.exists()) {
+//            packs = readFile(progressFile);
+//        } else {
+//            packs = readFile(levelFile);
+//        }
         
     }
     
-    private void readFile(File file) {
+    private Pack[] readFile(File file) {
         InputStreamReader reader;
         try {
             reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
@@ -52,15 +65,17 @@ public class FilePackDao implements PackDao {
             
             Gson customGson = builder.create();
             
-            packs = customGson.fromJson(jsonReader, Pack[].class);
+            return customGson.fromJson(jsonReader, Pack[].class);
 
         } catch (Exception e) {
             System.out.println("error in file level dao");
         }
+        return null;
     }
 
     @Override
     public Pack findPackById(String id) {
+        
         for (Pack pack : packs) {
             if (pack.getId().equals(id)) {
                 return pack;
@@ -70,15 +85,26 @@ public class FilePackDao implements PackDao {
     }
 
     @Override
-    public void saveProgress(Pack pack) {
+    public void saveProgress(Pack newPack) {
+        Pack[] progressPacks;
+        
         try {
-            if (!progressFile.exists()) {
-                fileWriter = new FileWriter(progressFile);
-
-                Gson gson = new Gson();
-                String json = gson.toJson(pack);
-                System.out.println(json);
+            if (progressFile.exists()) {
+                progressPacks = readFile(progressFile);
+                for (int i = 0; i < progressPacks.length; i++) {
+                    if (progressPacks[i].getId().equals(newPack.getId())) {
+                        progressPacks[i] = newPack;
+                    }
+                } 
+            } else {
+                progressPacks = new Pack[]{newPack};
             }
+  
+            fileWriter = new FileWriter(progressFile);
+            Gson gson = new Gson();
+            gson.toJson(progressPacks, fileWriter);
+            fileWriter.close();
+            
         } catch (IOException e) {
             
         }

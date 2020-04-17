@@ -13,7 +13,7 @@ import tasata.domain.Level;
 public class FileLevelDao implements LevelDao {
 
     private static File file;
-    private Level[] levels;
+    //private Level[] levels;
     private static final Gson GSON = new Gson();
 
     public FileLevelDao(String fileLocation) throws Exception {
@@ -27,6 +27,7 @@ public class FileLevelDao implements LevelDao {
     public Level findLevelById(String id) {
 
         InputStreamReader reader;
+        Level[] levels = null;
         try {
             reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
             JsonReader jsonReader = new JsonReader(reader);

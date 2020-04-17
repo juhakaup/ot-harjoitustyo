@@ -7,16 +7,16 @@ import tasata.domain.Pack;
 
 public class PackInstanceCreator implements InstanceCreator <Pack> {
     
-    private final FileLevelDao fileLevelDao;
+    private final LevelDao levelDao;
     
-    public PackInstanceCreator (FileLevelDao levelDao) {
-        this.fileLevelDao = levelDao;
+    public PackInstanceCreator (LevelDao levelDao) {
+        this.levelDao = levelDao;
     }
 
     @Override
     public Pack createInstance(Type type) {
         
-        Pack pack = new Pack(fileLevelDao);
+        Pack pack = new Pack(levelDao);
         
         return pack;
     }
