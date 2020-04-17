@@ -8,6 +8,7 @@ import tasata.dao.FilePackDao;
 import tasata.dao.LevelDao;
 import tasata.dao.PackDao;
 import tasata.domain.Game;
+import tasata.domain.GameEvent;
 
 public class GameTest {
     
@@ -15,7 +16,7 @@ public class GameTest {
     
     @Before
     public void setUp() throws Exception {
-        FileLevelDao fld = new FileLevelDao("assets/Levels.json");
+        LevelDao fld = new FileLevelDao("assets/Levels.json");
         PackDao fpd = new FilePackDao("assets/Packs.json", "assets/Progress.json", fld);
         game = new Game(fld, fpd);
         game.loadLevelPack("TestPack");
@@ -52,4 +53,5 @@ public class GameTest {
         assertThat(solvedD, is(equalTo(true)));
         
     }
+    
 }

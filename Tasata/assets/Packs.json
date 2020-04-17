@@ -5,7 +5,9 @@
             "TestData":"AVAILABLE",
             "A02":"LOCKED"
         },
-        "unlocks":[]
+        "unlocks":{
+            "TestData":["A02"]
+        }
     },
     {
         "packId":"StarterPack",

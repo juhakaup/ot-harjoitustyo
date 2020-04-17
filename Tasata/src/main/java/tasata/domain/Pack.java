@@ -41,7 +41,7 @@ public class Pack {
      * @param id id of the level that was completed
      */
     
-    void unlock(String id) {
+    public void unlock(String id) {
         if (unlocks.containsKey(id)) {
             for(String level : unlocks.get(id)) {
                 this.levels.put(level, State.AVAILABLE);
