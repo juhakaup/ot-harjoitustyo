@@ -101,4 +101,8 @@ public class TasataUi extends Application implements EventListener {
         
     }
     
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
 }
