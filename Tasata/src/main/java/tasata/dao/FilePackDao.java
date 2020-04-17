@@ -11,21 +11,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import tasata.domain.Pack;
 
-/**
- *
- */
+
 public class FilePackDao implements PackDao {
     
     private final File levelFile;
     private final File progressFile;
-    private Pack[] packs;
-    private static final Gson GSON = new Gson();
-    private final FileLevelDao levels;
+    private final Pack[] packs;
+    private final LevelDao levels;
     private static FileWriter fileWriter;
     
-    public FilePackDao(String levelFileLocation, String progressFileLocation, FileLevelDao levels) {
+    public FilePackDao(String packFileLocation, String progressFileLocation, LevelDao levels) {
         this.levels = levels;
-        levelFile = new File(levelFileLocation);
+        levelFile = new File(packFileLocation);
         progressFile = new File(progressFileLocation);
         
         if (!levelFile.exists()) {
@@ -44,13 +41,7 @@ public class FilePackDao implements PackDao {
                     }
                 }
             }
-        }
-        
-//        if (progressFile.exists()) {
-//            packs = readFile(progressFile);
-//        } else {
-//            packs = readFile(levelFile);
-//        }
+        } 
         
     }
     
@@ -106,7 +97,7 @@ public class FilePackDao implements PackDao {
             fileWriter.close();
             
         } catch (IOException e) {
-            
+            System.out.println("Error in saving game progress");
         }
     }
     

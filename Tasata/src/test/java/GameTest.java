@@ -5,6 +5,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import tasata.dao.FileLevelDao;
 import tasata.dao.FilePackDao;
+import tasata.dao.LevelDao;
+import tasata.dao.PackDao;
 import tasata.domain.Game;
 
 public class GameTest {
@@ -14,8 +16,9 @@ public class GameTest {
     @Before
     public void setUp() throws Exception {
         FileLevelDao fld = new FileLevelDao("assets/Levels.json");
-        FilePackDao fpd = new FilePackDao("assets/Levels.json", fld);
+        PackDao fpd = new FilePackDao("assets/Packs.json", "assets/Progress.json", fld);
         game = new Game(fld, fpd);
+        game.loadLevelPack("TestPack");
     }
     
     @Test
