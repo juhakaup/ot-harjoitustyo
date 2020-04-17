@@ -26,6 +26,7 @@ import tasata.domain.Tile;
 public class GameScene {
 
     private static final double TILEMAXSIZE = 65;
+    private static final double LINEWIDTH = 5;
     private static final double[][] DIR = new double[][]{
         {}, {0.5, -0.87}, {1, 0}, {0.5, 0.87}, {-0.5, 0.87}, {-1, 0}, {-0.5, -0.87}};
     private final StackPane gameSegment;
@@ -201,8 +202,6 @@ public class GameScene {
 
             double originX = tile1.getTranslateX();
             double originY = tile1.getTranslateY();
-//            double originX = tile1.getLayoutX();
-//            double originY = tile1.getLayoutY();
             
 
             double newPosX = originX + DIR[direction][0] * TILEMAXSIZE;
@@ -210,23 +209,19 @@ public class GameScene {
 
             tile2.setTranslateX(newPosX);
             tile2.setTranslateY(newPosY);
-//            tile2.setLayoutX(newPosX);
-//            tile2.setLayoutY(newPosY);
 
-//            Line line = new Line(originX, originY, 
-//                    originX + DIR[direction][0] * 5,
-//                    originY + DIR[direction][1] * 5);
             Line line = new Line(
-                    tile1.getTranslateX() + 0.5 * TILEMAXSIZE, 
-                    tile1.getTranslateY() + 0.5 * TILEMAXSIZE, 
-                    tile2.getTranslateX() + 0.5 * TILEMAXSIZE,
-                    tile2.getTranslateY() + 0.5 * TILEMAXSIZE
+                    (tile1.getTranslateX() + 0.5 * TILEMAXSIZE) + DIR[direction][0] * TILEMAXSIZE * 0.45, 
+                    (tile1.getTranslateY() + 0.5 * TILEMAXSIZE) + DIR[direction][1] * TILEMAXSIZE * 0.45, 
+                    (tile2.getTranslateX() + 0.5 * TILEMAXSIZE) - DIR[direction][0] * TILEMAXSIZE * 0.45,
+                    (tile2.getTranslateY() + 0.5 * TILEMAXSIZE) - DIR[direction][1] * TILEMAXSIZE * 0.45
             );
-//            System.out.println(line.getLayoutX() + " " + line.getLayoutY());
-            line.setStrokeWidth(4.0);
+            
+            line.setTranslateX(-LINEWIDTH);
+            
+            line.setStrokeWidth(LINEWIDTH);
             line.setStroke(Color.DARKGRAY);
-//            line.setTranslateX(originX + DIR[direction][0] * (TILEMAXSIZE / 2));
-//            line.setTranslateY(originY + DIR[direction][1] * (TILEMAXSIZE / 2));
+            
             gameTiles.getChildren().add(line);
         }
     }
