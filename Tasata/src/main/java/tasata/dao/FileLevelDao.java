@@ -3,7 +3,6 @@ package tasata.dao;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import tasata.domain.Level;
 
@@ -12,15 +11,11 @@ import tasata.domain.Level;
  */
 public class FileLevelDao implements LevelDao {
 
-    private static File file;
-    //private Level[] levels;
+    private static String fileLocation;
     private static final Gson GSON = new Gson();
 
     public FileLevelDao(String fileLocation) throws Exception {
-        file = new File(fileLocation);
-        if (!file.exists()) {
-            System.out.println("No such file");
-        }
+        this.fileLocation = fileLocation;
     }
 
     @Override
@@ -29,7 +24,8 @@ public class FileLevelDao implements LevelDao {
         InputStreamReader reader;
         Level[] levels = null;
         try {
-            reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
+            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+            reader = new InputStreamReader(classLoader.getResourceAsStream(fileLocation));
             JsonReader jsonReader = new JsonReader(reader);
             levels = GSON.fromJson(jsonReader, Level[].class);
 

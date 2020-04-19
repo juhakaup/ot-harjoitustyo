@@ -14,26 +14,25 @@ import tasata.domain.Pack;
 
 public class FilePackDao implements PackDao {
     
-    private final File levelFile;
+//    private final File levelFile;
     private final File progressFile;
     private final Pack[] packs;
     private final LevelDao levels;
     private static FileWriter fileWriter;
+    private String packFileLocation;
+    private String progressFileLocation;
     
     public FilePackDao(String packFileLocation, String progressFileLocation, LevelDao levels) {
         this.levels = levels;
-        levelFile = new File(packFileLocation);
+        this.packFileLocation = packFileLocation;
+        this.progressFileLocation = progressFileLocation;
+        
+        
+        packs = readFile(packFileLocation);
+        
         progressFile = new File(progressFileLocation);
-        
-        if (!levelFile.exists()) {
-            System.out.println("Level file not found");
-        }
-        
-        packs = readFile(levelFile);
-        
         if (progressFile.exists()) {
-            Pack[] packProgress = readFile(progressFile);
-            
+            Pack[] packProgress = readFile(progressFile);    
             for (int i = 0; i < packs.length; i++) {
                 for (Pack p : packProgress) {
                     if (packs[i].getId().equals(p.getId())) {
@@ -41,14 +40,14 @@ public class FilePackDao implements PackDao {
                     }
                 }
             }
-        } 
+        }
         
     }
     
-    private Pack[] readFile(File file) {
+    private Pack[] readFile(Object file) {
         InputStreamReader reader;
         try {
-            reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
+            reader = getReader(file);
             JsonReader jsonReader = new JsonReader(reader);
             
             GsonBuilder builder = new GsonBuilder();
@@ -63,6 +62,17 @@ public class FilePackDao implements PackDao {
         }
         return null;
     }
+    
+    private InputStreamReader getReader(Object file) throws Exception {
+        if (file instanceof String) {
+            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+            return new InputStreamReader(classLoader.getResourceAsStream((String)file));
+        } else if (file instanceof File) {
+            return new InputStreamReader(new FileInputStream((File)file), "UTF-8");
+        }
+        return null;
+    }
+
 
     @Override
     public Pack findPackById(String id) {
@@ -81,7 +91,7 @@ public class FilePackDao implements PackDao {
         
         try {
             if (progressFile.exists()) {
-                progressPacks = readFile(progressFile);
+                progressPacks = readFile(progressFileLocation);
                 for (int i = 0; i < progressPacks.length; i++) {
                     if (progressPacks[i].getId().equals(newPack.getId())) {
                         progressPacks[i] = newPack;
@@ -92,7 +102,7 @@ public class FilePackDao implements PackDao {
             }
   
             fileWriter = new FileWriter(progressFile);
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(progressPacks, fileWriter);
             fileWriter.close();
             
