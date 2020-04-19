@@ -27,8 +27,9 @@ public class Game implements EventListener {
     
     public boolean loadLevelPack(String id) {
         Pack pack = packDao.findPackById(id);
-        if (pack == null) return false;
-        
+        if (pack == null) {
+            return false;
+        }
         currentPack = pack;
         return true;
     }
@@ -41,8 +42,9 @@ public class Game implements EventListener {
      */
     public boolean loadLevel(String levelId) {
         Level level = levelDao.findLevelById(levelId);
-        if (level == null) return false;
-        
+        if (level == null) {
+            return false;
+        }
         currentLevel = level;
         steps = new ArrayList<>();
         solved = false;
@@ -90,7 +92,7 @@ public class Game implements EventListener {
             tile.disperseTile();
             steps.add(id);
             
-            if(isSolved()) {
+            if (isSolved()) {
                 solved = true;
                 currentPack.unlock(currentLevel.getId());
                 notifyListeners(GameEvent.LEVEL_STATE_CHANGE, currentPack.getPackState());
@@ -121,7 +123,7 @@ public class Game implements EventListener {
     public void onEvent(GameEvent event, Object args) {
         switch (event) {
             case TILE_PRESS:
-                if (disperseTile((String)args)) {
+                if (disperseTile((String) args)) {
                     moves++;
                     notifyListeners(GameEvent.TILE_CHANGE, currentLevel.getTileSet());
                 }

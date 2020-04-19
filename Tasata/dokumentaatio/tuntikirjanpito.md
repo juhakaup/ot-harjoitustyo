@@ -20,5 +20,7 @@
 | 13.4. | 2    | Pack-luokan iterointia, kentäsettien lataaminen tiedostosta |
 | 14.4. | 4    | Kenttäsetit pelilogiikkaan ja käyttöliittymään, testien päivitys |
 | 16.4. | 3    | Config-tiedosto. Pelin kulun talletuksen runko |
-| 17.4. | 2    | Pelin kulun talletuksen toiminnallisuus kuntoon |
-| yht   | 52   | | 
+| 17.4. | 3    | Pelinkulun talletuksen toiminnallisuus kuntoon, jar:in generointi |
+| 18.4. | 3    | Assettien lataaminen jarin sisältä |
+| 19.4. | 2    | Pelinkulun tallettaminen ja lataaminen jar-tiedostosta ajettaessa |
+| yht   | 58   | | 

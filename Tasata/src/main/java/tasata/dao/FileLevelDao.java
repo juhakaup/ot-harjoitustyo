@@ -20,7 +20,6 @@ public class FileLevelDao implements LevelDao {
 
     @Override
     public Level findLevelById(String id) {
-
         InputStreamReader reader;
         Level[] levels = null;
         try {
@@ -28,7 +27,6 @@ public class FileLevelDao implements LevelDao {
             reader = new InputStreamReader(classLoader.getResourceAsStream(fileLocation));
             JsonReader jsonReader = new JsonReader(reader);
             levels = GSON.fromJson(jsonReader, Level[].class);
-
             for (int i = 0; i < levels.length; i++) {
                 levels[i].createTileConnections();
             }

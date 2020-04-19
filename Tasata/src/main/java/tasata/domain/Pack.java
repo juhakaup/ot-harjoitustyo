@@ -43,7 +43,7 @@ public class Pack {
     
     public void unlock(String id) {
         if (unlocks.containsKey(id)) {
-            for(String level : unlocks.get(id)) {
+            for (String level : unlocks.get(id)) {
                 this.levels.put(level, State.AVAILABLE);
             }
         }

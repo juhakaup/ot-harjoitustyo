@@ -29,7 +29,6 @@ public class LevelTest {
 
     @Test
     public void returnTileWorksProperly() {
-        System.out.println("jee");
         Tile testTileA = level.getTile("A");
         Tile testTileB = level.getTile("X");
         
