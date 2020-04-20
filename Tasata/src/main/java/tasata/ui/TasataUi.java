@@ -20,8 +20,8 @@ import tasata.domain.Tile;
 
 public class TasataUi extends Application implements EventListener {
     
-    private static int WIDTH;
-    private static int HEIGHT;
+    private static int width;
+    private static int height;
     
     private Stage window;
     private Game game;
@@ -49,8 +49,8 @@ public class TasataUi extends Application implements EventListener {
         String levelFile = properties.getProperty("levelFile");
         String packFile = properties.getProperty("packFile");
         String progressFile = properties.getProperty("progressFile");
-        WIDTH = Integer.parseInt(properties.getProperty("screenWidth"));
-        HEIGHT = Integer.parseInt(properties.getProperty("screenHeight"));
+        width = Integer.parseInt(properties.getProperty("screenWidth"));
+        height = Integer.parseInt(properties.getProperty("screenHeight"));
         startingPack = properties.getProperty("staringPack");
         
         levelDao = new FileLevelDao(levelFile);
@@ -66,11 +66,11 @@ public class TasataUi extends Application implements EventListener {
         game.addListener(this);
         game.loadLevelPack(startingPack);
         
-        gameScene = new GameScene(WIDTH, HEIGHT);
+        gameScene = new GameScene(width, height);
         gameScene.addListener(this);
         gameScene.addListener(game);
         
-        menuScene = new MenuScene(WIDTH, HEIGHT, game.getCurrentLevels());
+        menuScene = new MenuScene(width, height, game.getCurrentLevels());
         menuScene.addListener(this);
         menuScene.addListener(game);
         menuScene.updateLevelList(game.getLevelsState());

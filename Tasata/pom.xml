@@ -63,6 +63,7 @@
                 <version>2.17</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
+                    <excludes>**/ui/**</excludes>
                 </configuration>
             </plugin>
             <plugin>

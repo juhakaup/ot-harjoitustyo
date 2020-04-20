@@ -7,6 +7,7 @@ import tasata.dao.PackDao;
 
 /**
  * This class handles the game logic and services
+ * 
  */
 
 public class Game implements EventListener {
@@ -14,9 +15,7 @@ public class Game implements EventListener {
     private Pack currentPack;
     private final LevelDao levelDao;
     private final PackDao packDao;
-    private int moves;
-    private ArrayList<String> steps;
-    private boolean solved;
+    private int playerMoves;
     private final ArrayList<EventListener> listeners;
 
     public Game(LevelDao levelDao, PackDao packDao) throws Exception {
@@ -25,33 +24,6 @@ public class Game implements EventListener {
         this.listeners = new ArrayList<>();
     }
     
-    public boolean loadLevelPack(String id) {
-        Pack pack = packDao.findPackById(id);
-        if (pack == null) {
-            return false;
-        }
-        currentPack = pack;
-        return true;
-    }
-
-    /**
-     * Find and load level by level id
-     *
-     * @param levelId level to be loaded
-     * @return true if level loaded, false otherwise
-     */
-    public boolean loadLevel(String levelId) {
-        Level level = levelDao.findLevelById(levelId);
-        if (level == null) {
-            return false;
-        }
-        currentLevel = level;
-        steps = new ArrayList<>();
-        solved = false;
-        notifyListeners(GameEvent.LEVEL_LOADED, levelId);
-        return true;
-    }
-
     public Level getCurrentLevel() {
         return this.currentLevel;
     }
@@ -63,10 +35,40 @@ public class Game implements EventListener {
     public Map<String, State> getLevelsState() {
         return this.currentPack.getPackState();
     }
-
-    public int getMoves() {
-        return moves;
+    
+    /**
+     * Method finds and loads a level pack from the current pack dao
+     * 
+     * @param id Pack id as a String
+     * @return true if pack is loaded, false otherwise
+     */
+    
+    public boolean loadLevelPack(String id) {
+        Pack pack = packDao.findPackById(id);
+        if (pack == null) {
+            return false;
+        }
+        currentPack = pack;
+        return true;
     }
+
+    /**
+     * Find and load level by level id from the current level dao
+     *
+     * @param levelId id of the level to be loaded as a String
+     * @return true if level loaded, false otherwise
+     */
+    
+    public boolean loadLevel(String levelId) {
+        Level level = levelDao.findLevelById(levelId);
+        if (level == null) {
+            return false;
+        }
+        currentLevel = level;
+        notifyListeners(GameEvent.LEVEL_LOADED, levelId);
+        return true;
+    }
+
 
     /**
      * Check if all the tiles in the current level have the same value
@@ -84,29 +86,32 @@ public class Game implements EventListener {
         }
         return true;
     }
+    
+    /**
+     * Performs a tile press on given tile updating the level state 
+     * 
+     * @param id
+     * @return 
+     */
 
-    private boolean disperseTile(String id) {
+    private boolean tilePressed(String id) {
         Tile tile = currentLevel.getTile(id);
-        
-        if (tile != null) {
-            tile.disperseTile();
-            steps.add(id);
-            
-            if (isSolved()) {
-                solved = true;
-                currentPack.unlock(currentLevel.getId());
-                notifyListeners(GameEvent.LEVEL_STATE_CHANGE, currentPack.getPackState());
-                notifyListeners(GameEvent.LEVEL_SOLVED, currentLevel.getId());
-                packDao.saveProgress(currentPack);
-                storeLevelState();
-            }
-            return true;
+        if (tile == null) {
+            return false;
         }
-        return false;
+        tile.disperseTile();
+        updateLevelState();
+        return true;
     }
     
-    private void storeLevelState() {
-        System.out.println("store level state unimplemented");
+    public void updateLevelState() {
+        playerMoves++;
+        if (isSolved()) {
+            currentPack.unlock(currentLevel.getId());
+            notifyListeners(GameEvent.LEVEL_STATE_CHANGE, currentPack.getPackState());
+            notifyListeners(GameEvent.LEVEL_SOLVED, currentLevel.getId());
+            packDao.saveProgress(currentPack);
+        }
     }
 
     public void addListener(EventListener listener) {
@@ -123,17 +128,13 @@ public class Game implements EventListener {
     public void onEvent(GameEvent event, Object args) {
         switch (event) {
             case TILE_PRESS:
-                if (disperseTile((String) args)) {
-                    moves++;
+                if (tilePressed((String) args)) {
                     notifyListeners(GameEvent.TILE_CHANGE, currentLevel.getTileSet());
                 }
                 break;
             case RESET_LEVEL:
                 loadLevel(currentLevel.getId());
                 notifyListeners(GameEvent.TILE_CHANGE, "");
-                break;
-            case MENU_SCENE:
-                storeLevelState();
                 break;
             case LOAD_LEVEL:
                 loadLevel((String) args);
