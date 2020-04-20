@@ -85,7 +85,7 @@ public class FilePackDao implements PackDao {
         Pack[] progressPacks;
         try {
             if (progressFile.exists()) {
-                progressPacks = readFile(progressFileLocation);
+                progressPacks = readFile(progressFile);
                 for (int i = 0; i < progressPacks.length; i++) {
                     if (progressPacks[i].getId().equals(newPack.getId())) {
                         progressPacks[i] = newPack;
