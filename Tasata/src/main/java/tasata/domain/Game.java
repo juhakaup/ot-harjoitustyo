@@ -65,7 +65,9 @@ public class Game implements EventListener {
             return false;
         }
         currentLevel = level;
+        playerMoves = 0;
         notifyListeners(GameEvent.LEVEL_LOADED, levelId);
+        updateLevelState();
         return true;
     }
 
@@ -100,15 +102,18 @@ public class Game implements EventListener {
             return false;
         }
         tile.disperseTile();
+        playerMoves++;
         updateLevelState();
         return true;
     }
     
     public void updateLevelState() {
-        playerMoves++;
+        String moves = String.valueOf(playerMoves);
+        String state = String.valueOf(currentPack.getPackState().get(currentLevel.getId()));
+        notifyListeners(GameEvent.LEVEL_STATE_CHANGE, new String[]{moves, state});
         if (isSolved()) {
             currentPack.unlock(currentLevel.getId());
-            notifyListeners(GameEvent.LEVEL_STATE_CHANGE, currentPack.getPackState());
+            notifyListeners(GameEvent.TILES_UPDATED, currentPack.getPackState());
             notifyListeners(GameEvent.LEVEL_SOLVED, currentLevel.getId());
             packDao.saveProgress(currentPack);
         }
@@ -134,7 +139,6 @@ public class Game implements EventListener {
                 break;
             case RESET_LEVEL:
                 loadLevel(currentLevel.getId());
-                notifyListeners(GameEvent.TILE_CHANGE, "");
                 break;
             case LOAD_LEVEL:
                 loadLevel((String) args);

@@ -39,7 +39,6 @@ public class GameScene {
     private final Scene scene;
     private VBox popMenu;
     private final Text movesText;
-    private int moves = 0;
     private final Button resetLevel;
     private final Button displayMenu;
     private Button popReset;
@@ -55,13 +54,11 @@ public class GameScene {
         // Area for puzzle
         gameSegment = new StackPane();
         gameTiles = new Group();
-//        gameTiles.setAutoSizeChildren(false);
         gameTiles.prefHeight(WIDTH);
         gameTiles.prefWidth(WIDTH);
         gameSegment.getChildren().add(gameTiles);
         
-        
-        // Title
+        // Title segment
         titleSegment = new GridPane();
         titleSegment.setPadding(new Insets(10, 10, 10, 10));
         titleSegment.setMinSize(width, 30);
@@ -77,6 +74,12 @@ public class GameScene {
         root = new BorderPane();
         scene = new Scene(root, width, height);
 
+        // Popup menu
+        popMenu = createPopupMenu();
+        popMenu.setVisible(false);
+        gameSegment.getChildren().add(popMenu);
+        
+        // Botton controls
         resetLevel = new Button("Restart");
         resetLevel.setOnAction(e -> {
             notifyListeners(GameEvent.RESET_LEVEL, "");
@@ -88,14 +91,11 @@ public class GameScene {
             gameTiles.setDisable(!gameTiles.disableProperty().get());
         });
         
-        popMenu = createPopupMenu();
-        popMenu.setVisible(false);
-        gameSegment.getChildren().add(popMenu);
-        
         HBox controls = new HBox();
         controls.getChildren().add(resetLevel);
         controls.getChildren().add(displayMenu);
 
+        // Window layout
         root.setCenter(gameSegment);
         root.setTop(titleSegment);
         root.setBottom(controls);
@@ -107,6 +107,10 @@ public class GameScene {
     
     public void setConnections(String[][] connections) {
         this.connections = connections;
+    }
+    
+    public void setMoves(String moves) {
+        this.movesText.setText(moves);
     }
     
     public void levelSolved() {
@@ -172,7 +176,6 @@ public class GameScene {
             gameTiles.getChildren().add(button);
         }
         updateTilePositions();
-        moves = 0;
     }
 
     private Polygon createHexagon() {

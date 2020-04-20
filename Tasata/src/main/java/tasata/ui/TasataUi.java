@@ -77,7 +77,6 @@ public class TasataUi extends Application implements EventListener {
         
         window.setScene(menuScene.getScene());
         window.show();
-        
     }
     
     @Override
@@ -98,8 +97,11 @@ public class TasataUi extends Application implements EventListener {
             case LEVEL_SOLVED:
                 gameScene.levelSolved();
                 break;
+            case TILES_UPDATED:
+                menuScene.updateLevelList((Map<String, State>) attribute);
+                break;
             case LEVEL_STATE_CHANGE:
-                menuScene.updateLevelList((Map<String, State>)attribute);
+                gameScene.setMoves(((String[]) attribute)[0]);
                 break;
             default:
                 break;
