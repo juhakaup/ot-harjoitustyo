@@ -87,5 +87,39 @@
       [ "D", "E", "1" ],
       [ "D", "F", "3" ]
     ]
+  },
+  {
+    "levelId": "A03",
+    "description": "Seems simple",
+    "moves": 10,
+    "tileSet": [
+      {
+        "id": "A",
+        "value": 0
+      },
+      {
+        "id": "B",
+        "value": 0
+      },
+      {
+        "id": "C",
+        "value": 0
+      },
+      {
+        "id": "D",
+        "value": 0
+      },
+      {
+        "id": "E",
+        "value": 5
+      }
+    ],
+    "connections": [
+      [ "A", "B", "3" ],
+      [ "B", "C", "4" ],
+      [ "B", "D", "3" ],
+      [ "C", "E", "6" ],
+      [ "A", "E", "4" ]
+    ]
   }
 ]

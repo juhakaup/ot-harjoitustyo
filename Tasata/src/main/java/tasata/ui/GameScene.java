@@ -86,10 +86,13 @@ public class GameScene {
         });
 
         displayMenu = new Button("Menu");
-        displayMenu.setOnAction(e -> {
-            popMenu.setVisible(!popMenu.visibleProperty().getValue());
-            gameTiles.setDisable(!gameTiles.disableProperty().get());
+        displayMenu.setOnAction(e-> {
+            notifyListeners(GameEvent.MENU_SCENE, "");
         });
+//        displayMenu.setOnAction(e -> {
+//            popMenu.setVisible(!popMenu.visibleProperty().getValue());
+//            gameTiles.setDisable(!gameTiles.disableProperty().get());
+//        });
         
         HBox controls = new HBox();
         controls.getChildren().add(resetLevel);
@@ -134,6 +137,7 @@ public class GameScene {
         });
         
         popNext = new Button("Next");
+        popNext.setDisable(true);
         popNext.setOnAction(e -> {
             System.out.println("next level please");
         });

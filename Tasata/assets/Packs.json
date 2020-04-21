@@ -1,6 +1,9 @@
 [
     {
         "packId":"TestPack",
+        "goldLevel": 1.2,
+        "silverLevel": 1.5,
+        "bronzeLevel": 10,
         "levels":{
             "TestData":"AVAILABLE",
             "A02":"LOCKED"
@@ -11,12 +14,17 @@
     },
     {
         "packId":"StarterPack",
+        "goldLevel": 1.3,
+        "silverLevel": 1.8,
+        "bronzeLevel": 10,
         "levels":{
             "A01":"AVAILABLE",
-            "A02":"LOCKED"
+            "A02":"LOCKED",
+            "A03":"LOCKED"
         },
         "unlocks":{
-            "A01":["A02"]
+            "A01":["A02"],
+            "A02":["A03"]
         }
     }
 ]

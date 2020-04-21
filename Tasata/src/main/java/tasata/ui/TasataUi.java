@@ -1,9 +1,5 @@
 package tasata.ui;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
@@ -42,10 +38,7 @@ public class TasataUi extends Application implements EventListener {
         Properties properties = new Properties();
 
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        properties.load(classLoader.getResourceAsStream("config.properties"));
- 
-//        properties.load(new FileInputStream("config.properties"));
-        
+        properties.load(classLoader.getResourceAsStream("config.properties"));       
         String levelFile = properties.getProperty("levelFile");
         String packFile = properties.getProperty("packFile");
         String progressFile = properties.getProperty("progressFile");
@@ -58,8 +51,7 @@ public class TasataUi extends Application implements EventListener {
     }
     
     @Override
-    public void start(Stage stage) throws Exception { 
-        
+    public void start(Stage stage) throws Exception {   
         window = stage;
         
         game = new Game(levelDao, packDao);
@@ -73,7 +65,7 @@ public class TasataUi extends Application implements EventListener {
         menuScene = new MenuScene(width, height, game.getCurrentLevels());
         menuScene.addListener(this);
         menuScene.addListener(game);
-        menuScene.updateLevelList(game.getLevelsState());
+        menuScene.updateLevelList(game.getPackState());
         
         window.setScene(menuScene.getScene());
         window.show();
@@ -97,10 +89,10 @@ public class TasataUi extends Application implements EventListener {
             case LEVEL_SOLVED:
                 gameScene.levelSolved();
                 break;
-            case TILES_UPDATED:
+            case PACK_STATE_UPDATE:
                 menuScene.updateLevelList((Map<String, State>) attribute);
                 break;
-            case LEVEL_STATE_CHANGE:
+            case MOVE_COUNT_UPDATED:
                 gameScene.setMoves(((String[]) attribute)[0]);
                 break;
             default:

@@ -13,7 +13,9 @@ public class Pack {
     private String packId;
     private Map<String, State> levels;
     private Map<String, String[]> unlocks;
-    
+    private double goldLevel;
+    private double silverLevel;
+    private double bronzeLevel;
     private transient final LevelDao levelDao;
 
     public Pack(LevelDao levelDao) {
@@ -22,6 +24,18 @@ public class Pack {
 
     public String getId() {
         return this.packId;
+    }
+    
+    public double getGoldLevel() {
+        return this.goldLevel;
+    }
+    
+    public double getSilverLevel() {
+        return this.silverLevel;
+    }
+    
+    public double getBronzeLevel() {
+        return this.bronzeLevel;
     }
 
     public ArrayList<String[]> getLevels() {
