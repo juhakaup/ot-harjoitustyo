@@ -23,4 +23,6 @@
 | 17.4. | 3    | Pelinkulun talletuksen toiminnallisuus kuntoon, jar:in generointi |
 | 18.4. | 3    | Assettien lataaminen jarin sisältä |
 | 19.4. | 2    | Pelinkulun tallettaminen ja lataaminen jar-tiedostosta ajettaessa |
-| yht   | 58   | | 
+| 20.4. | 2    | Korjauksia lataamiseen, ui:n päivitykseen, tyylivirheiden korjauksia |
+| 21.4. | 3    | Scoretukseen liittyvää toiminnallisuutta. Pientä refaktorointia |
+| yht   | 63   | | 
