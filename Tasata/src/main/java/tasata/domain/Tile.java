@@ -39,7 +39,7 @@ public class Tile {
 
     /**
      * Disperses the tiles value to it's adjacent tiles by incrementing the
-     * neighboring tiles values by one and decrementing the tiles value by
+     * neighbouring tiles values by one and decrementing the tiles value by
      * the amount of adjacent tiles 
      */
     

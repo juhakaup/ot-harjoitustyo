@@ -126,15 +126,14 @@ public class Game implements EventListener {
      * @return 
      */
 
-    private boolean tilePressed(String id) {
+    private void tilePressed(String id) {
         Tile tile = currentLevel.getTile(id);
         if (tile == null) {
-            return false;
+            return;
         }
         tile.disperseTile();
         playerMoves++;
         updateLevelState();
-        return true;
     }
     
     public void updateLevelState() {
