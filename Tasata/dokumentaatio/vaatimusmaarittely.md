@@ -15,16 +15,17 @@ Myöhemmin on mahdollista lisätä sovellukseen ns. developer- käyttäjärooli,
 ### Perusversio
 
 #### Toiminnot valikossa
-- Käyttäjä näkee mitkä kentät ovat pelattavissa
+- Käyttäjä näkee mitkä kentät ovat pelattavissa (tehty)
 - käyttäjä näkee mitkä kentät hän on läpäissyt
-- käyttäjä voi valita jonkin pelattavissa olevan kentän ja siirtyä pelaamaan sitä
-- käyttäjä voi pelata jo läpäisemäänsä kenttää
+- käyttäjä voi valita jonkin pelattavissa olevan kentän ja siirtyä pelaamaan sitä (tehty)
+- käyttäjä voi pelata jo läpäisemäänsä kenttää (tehty)
 - käyttäjä voi palauttaa pelin alkutilaan
 
 #### Toiminnot pelissä
-- käyttäjä voi palata valikkoon
-- käyttäjä voi aloittaa kentän alusta
-- käyttäjä voi läpäistä kentän
+- käyttäjä voi palata valikkoon (tehty)
+- käyttäjä voi aloittaa kentän alusta (tehty)
+- käyttäjä voi läpäistä kentän (tehty)
+- käyttäjä voi valita siirtyä suoraan seuraavaan kenttään
 
 ### Jatkokehitysideoita
 
