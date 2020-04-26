@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -23,7 +22,7 @@ public class MenuScene {
     private final BorderPane root;
     private final List<EventListener> listeners = new ArrayList<>();
     private final ArrayList<String[]> levels;
-    private Map<String, Node> levelNodes;
+    private final Map<String, Node> levelNodes;
     private final VBox levelList;
 
     public MenuScene(int width, int height, ArrayList<String[]> levels) {
@@ -71,11 +70,26 @@ public class MenuScene {
         for (String id : states.keySet()) {
             if (!levelNodes.containsKey(id)) continue;
             
+            Node node = levelNodes.get(id);
+            
             State state = states.get(id);
-            if(state == State.LOCKED) {
-                levelNodes.get(id).setDisable(true);
+            if (state.ordinal() > 0) {
+                node.setDisable(false);
+                switch (state) {
+                    case BRONZE:
+                        node.setStyle("-fx-background-color: radial-gradient(center 50% -40%, radius 180%, WHEAT 46%, GOLDENROD 51%)");
+                        break;
+                    case SILVER:
+                        node.setStyle("-fx-background-color: radial-gradient(center 50% -40%, radius 180%, WHITESMOKE 45%, LIGHTSLATEGRAY 50%, SILVER 70%)");
+                        break;
+                    case GOLD:
+                        node.setStyle("-fx-background-color: radial-gradient(center 50% -40%, radius 180%, YELLOW 46%, GOLD 51%)");
+                        break;
+                    default:
+                        break;
+                }
             } else {
-                levelNodes.get(id).setDisable(false);
+                node.setDisable(true);
             }
         }
     }

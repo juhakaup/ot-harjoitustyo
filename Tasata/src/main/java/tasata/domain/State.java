@@ -3,6 +3,6 @@ package tasata.domain;
 
 public enum State {
     
-    LOCKED, AVAILABLE, GOLD, SILVER, BRONZE
+    LOCKED, AVAILABLE, BRONZE, SILVER, GOLD
     
 }

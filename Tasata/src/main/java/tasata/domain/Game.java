@@ -17,9 +17,9 @@ public class Game implements EventListener {
     private final PackDao packDao;
     private int playerMoves;
     private final ArrayList<EventListener> listeners;
-    private int goldLevel;
-    private int silverLevel;
-    private int bronzeLevel;
+    private int goldTier;
+    private int silverTier;
+    private int bronzeTier;
 
     public Game(LevelDao levelDao, PackDao packDao) throws Exception {
         this.levelDao = levelDao;
@@ -69,7 +69,7 @@ public class Game implements EventListener {
         }
         currentLevel = level;
         playerMoves = 0;
-        generateScoreLevels();
+        generateScoreTiers();
         notifyListeners(GameEvent.LEVEL_LOADED, levelId);
         updateLevelState();
         return true;
@@ -100,20 +100,20 @@ public class Game implements EventListener {
      * set for the current level-pack
      */
     
-    public void generateScoreLevels() {
+    public void generateScoreTiers() {
         int optimalMoves = currentLevel.getMoves();
-        goldLevel   = (int) currentPack.getGoldLevel()   * optimalMoves;
-        silverLevel = (int) currentPack.getSilverLevel() * optimalMoves;
-        bronzeLevel = (int) currentPack.getBronzeLevel() * optimalMoves;
+        goldTier   = (int) currentPack.getGoldLevel()   * optimalMoves;
+        silverTier = (int) currentPack.getSilverLevel() * optimalMoves;
+        bronzeTier = (int) currentPack.getBronzeLevel() * optimalMoves;
     }
     
     
     public State getScore() {
-        if (playerMoves <= goldLevel) {
+        if (playerMoves <= goldTier) {
             return State.GOLD;
-        } else if (playerMoves <= silverLevel) {
+        } else if (playerMoves <= silverTier) {
             return State.SILVER;
-        } else if (playerMoves <= bronzeLevel) {
+        } else if (playerMoves <= bronzeTier) {
             return State.BRONZE;
         }
         return null;
@@ -167,13 +167,17 @@ public class Game implements EventListener {
     public void onEvent(GameEvent event, Object args) {
         switch (event) {
             case TILE_PRESS:
-                tilePressed((String) args);
+                if (args instanceof String) {
+                    tilePressed((String) args);
+                }
                 break;
             case RESET_LEVEL:
                 loadLevel(currentLevel.getId());
                 break;
             case LOAD_LEVEL:
-                loadLevel((String) args);
+                if (args instanceof String) {
+                    loadLevel((String) args);
+                }
                 break;
             default:
                 break;
