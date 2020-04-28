@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import tasata.domain.Pack;
 
+/**
+ * Handles loading packs from a file
+ * 
+ */
 public class FilePackDao implements PackDao {
 
     private final File progressFile;

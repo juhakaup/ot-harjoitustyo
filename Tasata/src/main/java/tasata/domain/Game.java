@@ -6,7 +6,7 @@ import tasata.dao.LevelDao;
 import tasata.dao.PackDao;
 
 /**
- * This class handles the game logic and scoring
+ * Handles the game logic and scoring
  * 
  */
 
@@ -95,7 +95,7 @@ public class Game implements EventListener {
     }
     
     /**
-     * generates the max amount of moves needed to get certain score
+     * generates the tiers for the amount of moves needed to get certain score
      * this is based on optimal moves value in current level and multipliers
      * set for the current level-pack
      */
@@ -107,6 +107,11 @@ public class Game implements EventListener {
         bronzeTier = (int) currentPack.getBronzeLevel() * optimalMoves;
     }
     
+    /**
+     * Return the score of the level based on moves made at given time
+     * 
+     * @return level state as Enumerator
+     */
     
     public State getScore() {
         if (playerMoves <= goldTier) {
@@ -136,7 +141,7 @@ public class Game implements EventListener {
         updateLevelState();
     }
     
-    public void updateLevelState() {
+    private void updateLevelState() {
         String moves = String.valueOf(playerMoves);
         String state = String.valueOf(currentPack.getPackState().get(currentLevel.getId()));
         notifyListeners(GameEvent.MOVE_COUNT_UPDATED, new String[]{moves, state});
