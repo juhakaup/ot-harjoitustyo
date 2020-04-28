@@ -147,9 +147,11 @@ public class Game implements EventListener {
         notifyListeners(GameEvent.MOVE_COUNT_UPDATED, new String[]{moves, state});
         notifyListeners(GameEvent.TILE_CHANGE, currentLevel.getTileSet());
         if (isSolved()) {
+            if (getScore().ordinal() > currentPack.getLevelState(currentLevel.getId()).ordinal()) {
+                currentPack.setLevelState(currentLevel.getId(), getScore());
+            }
             currentPack.unlock(currentLevel.getId());
             notifyListeners(GameEvent.PACK_STATE_UPDATE, currentPack.getPackState());
-            getScore();
             notifyListeners(GameEvent.LEVEL_SOLVED, currentLevel.getId());
             packDao.saveProgress(currentPack);
         }

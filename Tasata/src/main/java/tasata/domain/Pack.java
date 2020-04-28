@@ -37,6 +37,19 @@ public class Pack {
     public double getBronzeLevel() {
         return this.bronzeLevel;
     }
+    
+    public void setLevelState(String id, State state) {
+        if (levels.containsKey(id)) {
+            levels.put(id, state);
+        }
+    }
+    
+    public State getLevelState(String id) {
+        if (levels.containsKey(id)) {
+            return levels.get(id);
+        }
+        return null;
+    }
 
     public ArrayList<String[]> getLevels() {
         ArrayList<String[]> list = new ArrayList<>();
@@ -58,7 +71,9 @@ public class Pack {
     public void unlock(String id) {
         if (unlocks.containsKey(id)) {
             for (String level : unlocks.get(id)) {
-                this.levels.put(level, State.AVAILABLE);
+                if (levels.get(level) == State.LOCKED) {
+                    this.levels.put(level, State.AVAILABLE);
+                }
             }
         }
     }
