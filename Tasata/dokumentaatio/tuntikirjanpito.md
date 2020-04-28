@@ -25,4 +25,6 @@
 | 19.4. | 2    | Pelinkulun tallettaminen ja lataaminen jar-tiedostosta ajettaessa |
 | 20.4. | 2    | Korjauksia lataamiseen, ui:n päivitykseen, tyylivirheiden korjauksia |
 | 21.4. | 3    | Scoretukseen liittyvää toiminnallisuutta. Pientä refaktorointia |
-| yht   | 63   | | 
+| 26.4. | 2    | Värit kenttälistaukseen tason scoren mukaan |
+| 28.4. | 1    | Scoren toiminta pelin sisällä |
+| yht   | 66   | | 

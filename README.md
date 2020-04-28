@@ -4,6 +4,8 @@ Tasata on pulmanratkaisupeli, jossa pelaajan tarkoituksena on saada kaikkiin ken
 
 ## Dokumentaatio
 
+[Käyttöohje](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/kayttoohje.md)
+
   [Vaatimusmäärittely](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/vaatimusmaarittely.md)
 
  [Arkkitehtuurikuvaus](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/arkkitehtuuri.md)
@@ -66,3 +68,12 @@ Suoritettavan jar-tiedoston voi generoida komennolla:
 mvn package
 ```
 
+### Javadoc:in generointi
+
+Javadoc saadaan generoitua komennolla:
+
+```
+mvn javadoc:javadoc
+```
+
+Generoitu dokumennti löytyy kansiosta *target/site/apidocs*
