@@ -102,9 +102,9 @@ public class Game implements EventListener {
     
     public void generateScoreTiers() {
         int optimalMoves = currentLevel.getMoves();
-        goldTier   = (int) currentPack.getGoldLevel()   * optimalMoves;
-        silverTier = (int) currentPack.getSilverLevel() * optimalMoves;
-        bronzeTier = (int) currentPack.getBronzeLevel() * optimalMoves;
+        goldTier   = (int) (currentPack.getGoldLevel()   * optimalMoves);
+        silverTier = (int) (currentPack.getSilverLevel() * optimalMoves);
+        bronzeTier = (int) (currentPack.getBronzeLevel() * optimalMoves);
     }
     
     /**
@@ -131,7 +131,7 @@ public class Game implements EventListener {
      * @return 
      */
 
-    private void tilePressed(String id) {
+    public void tilePressed(String id) {
         Tile tile = currentLevel.getTile(id);
         if (tile == null) {
             return;

@@ -9,6 +9,7 @@ import tasata.dao.LevelDao;
 import tasata.dao.PackDao;
 import tasata.domain.Game;
 import tasata.domain.GameEvent;
+import tasata.domain.State;
 
 public class GameTest {
     
@@ -52,6 +53,30 @@ public class GameTest {
         assertThat(solvedC, is(equalTo(false)));
         assertThat(solvedD, is(equalTo(true)));
         
+    }
+    
+    @Test
+    public void tilePressedisWorkingProperly() {
+        game.loadLevel("TestData");
+        
+        game.tilePressed("A");
+        State gold = game.getScore();
+        
+        game.tilePressed("A");
+        game.tilePressed("A");
+        game.tilePressed("A");
+        game.tilePressed("A");
+        State silver = game.getScore();
+        
+        game.tilePressed("A");
+        game.tilePressed("A");
+        game.tilePressed("A");
+        game.tilePressed("A");
+        State bronze = game.getScore();
+        
+        assertThat(gold, is(equalTo(State.GOLD)));
+        assertThat(silver, is(equalTo(State.SILVER)));
+        assertThat(bronze, is(equalTo(State.BRONZE)));
     }
     
 }
