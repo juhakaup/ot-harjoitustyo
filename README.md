@@ -14,6 +14,8 @@ Tasata on pulmanratkaisupeli, jossa pelaajan tarkoituksena on saada kaikkiin ken
 
 ## Releaset
 
+[Viikko 6](https://github.com/juhakaup/ot-harjoitustyo/releases/tag/0.5)
+
 [Viikko 5](https://github.com/juhakaup/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Komentorivitoiminnot
@@ -43,7 +45,7 @@ mvn test
 Testikattavuusraportin luonti:
 
 ```
-mvn jacoco:report
+mvn test jacoco:report
 ```
 
 Raportti löytyy projektin juuresta kansiosta *target/site/jacoco/index.html*
