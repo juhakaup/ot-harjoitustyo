@@ -145,7 +145,7 @@ public class Game implements EventListener {
         String moves = String.valueOf(playerMoves);
         String state = String.valueOf(currentPack.getPackState().get(currentLevel.getId()));
         notifyListeners(GameEvent.MOVE_COUNT_UPDATED, new String[]{moves, state});
-        notifyListeners(GameEvent.TILE_CHANGE, currentLevel.getTileSet());
+        notifyListeners(GameEvent.TILE_CHANGE, currentLevel.getValues());
         if (isSolved()) {
             if (getScore().ordinal() > currentPack.getLevelState(currentLevel.getId()).ordinal()) {
                 currentPack.setLevelState(currentLevel.getId(), getScore());

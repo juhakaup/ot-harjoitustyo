@@ -1,6 +1,5 @@
 package tasata.ui;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 import javafx.application.Application;
@@ -11,8 +10,6 @@ import tasata.domain.Game;
 import tasata.domain.EventListener;
 import tasata.domain.GameEvent;
 import tasata.domain.State;
-import tasata.domain.Tile;
-
 
 public class TasataUi extends Application implements EventListener {
     
@@ -29,7 +26,7 @@ public class TasataUi extends Application implements EventListener {
     
     public void prepareAndLauchLevel() {     
         gameScene.setConnections(game.getCurrentLevel().getConnections());
-        gameScene.createTiles(game.getCurrentLevel().getTileSet());
+        gameScene.createTiles(game.getCurrentLevel().getValues());
         window.setScene(gameScene.getScene());   
     }
     
@@ -86,7 +83,7 @@ public class TasataUi extends Application implements EventListener {
                 prepareAndLauchLevel();
                 break;
             case TILE_CHANGE:
-                gameScene.updateTileValues((ArrayList<Tile>) attribute);
+                gameScene.updateTileValues((Map<String, Integer>) attribute);
                 break;
             case LEVEL_SOLVED:
                 gameScene.levelSolved();

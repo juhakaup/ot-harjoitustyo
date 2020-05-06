@@ -4,6 +4,7 @@ import tasata.domain.EventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,7 +22,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import tasata.domain.GameEvent;
-import tasata.domain.Tile;
 
 public class GameScene {
 
@@ -159,19 +159,19 @@ public class GameScene {
 
         return background;
     }
-
-    public void createTiles(ArrayList<Tile> tiles) {
+    
+    public void createTiles(Map<String, Integer> tiles) {
         gameTiles.getChildren().clear();
         uiTiles = new HashMap<>();
 
-        for (Tile tile : tiles) {
-            Button button = new Button(Integer.toString(tile.getValue()));
-            button.setUserData(tile.getId());
+        for (String tile : tiles.keySet()) {
+            Button button = new Button(Integer.toString(tiles.get(tile)));
+            button.setUserData(tile);
             button.setOnAction(e-> {
-                notifyListeners(GameEvent.TILE_PRESS, tile.getId());
+                notifyListeners(GameEvent.TILE_PRESS, tile);
             });
             button.setPrefSize(55, 64);
-            uiTiles.put(tile.getId(), button);
+            uiTiles.put(tile, button);
             button.setShape(createHexagon());
             gameTiles.getChildren().add(button);
         }
@@ -186,9 +186,9 @@ public class GameScene {
         return hexagon;
     }
 
-    public void updateTileValues(ArrayList<Tile> tiles) {
-        for (Tile tile : tiles) {
-            uiTiles.get(tile.getId()).setText(Integer.toString(tile.getValue()));
+    public void updateTileValues(Map<String, Integer> tiles) {
+        for (String tile : tiles.keySet()) {
+            uiTiles.get(tile).setText(Integer.toString(tiles.get(tile)));
         }
     }
 

@@ -1,6 +1,8 @@
 package tasata.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represents a single level of the game
@@ -63,6 +65,14 @@ public class Level {
     
     public ArrayList<Tile> getTileSet() {
         return this.tileSet;
+    }
+    
+    public Map<String, Integer> getValues() {
+        Map<String, Integer> values = new HashMap<>();
+        for (Tile tile : tileSet) {
+            values.put(tile.getId(), tile.getValue());
+        }
+        return values;
     }
     
     public Tile getTile(String id) {
