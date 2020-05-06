@@ -24,6 +24,8 @@ public class MenuScene {
     private final ArrayList<String[]> levels;
     private final Map<String, Node> levelNodes;
     private final VBox levelList;
+    private static final double BUTTONSPACING = 5.0;
+    private static final double BUTTONWIDTH = 160.0;
 
     public MenuScene(int width, int height, ArrayList<String[]> levels) {
         root = new BorderPane();
@@ -31,6 +33,7 @@ public class MenuScene {
         this.levels = levels;
         this.levelList = new VBox();
         this.levelList.setAlignment(Pos.CENTER);
+        this.levelList.setSpacing(BUTTONSPACING);
         
         levelNodes = new HashMap<>();
         createLevelList();
@@ -55,6 +58,7 @@ public class MenuScene {
         for (String[] level : levels) {
             Button button = new Button(level[1]);
             button.setUserData(level[0]);
+            button.setPrefWidth(BUTTONWIDTH);
             
             button.setOnAction(e -> {
                 notifyListeners(GameEvent.LOAD_LEVEL, level[0]);

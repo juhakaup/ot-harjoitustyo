@@ -27,7 +27,7 @@ public class TasataUi extends Application implements EventListener {
     private FilePackDao packDao;
     private String startingPack;
     
-    public void levelLoaded() {     
+    public void prepareAndLauchLevel() {     
         gameScene.setConnections(game.getCurrentLevel().getConnections());
         gameScene.createTiles(game.getCurrentLevel().getTileSet());
         window.setScene(gameScene.getScene());   
@@ -44,7 +44,7 @@ public class TasataUi extends Application implements EventListener {
         String progressFile = properties.getProperty("progressFile");
         width = Integer.parseInt(properties.getProperty("screenWidth"));
         height = Integer.parseInt(properties.getProperty("screenHeight"));
-        startingPack = properties.getProperty("staringPack");
+        startingPack = properties.getProperty("startingPack");
         
         levelDao = new FileLevelDao(levelFile);
         packDao = new FilePackDao(packFile, progressFile, levelDao);
@@ -53,6 +53,7 @@ public class TasataUi extends Application implements EventListener {
     @Override
     public void start(Stage stage) throws Exception {   
         window = stage;
+        window.setTitle("TaSaTa");
         
         game = new Game(levelDao, packDao);
         game.addListener(this);
@@ -68,6 +69,7 @@ public class TasataUi extends Application implements EventListener {
         menuScene.updateLevelList(game.getPackState());
         
         window.setScene(menuScene.getScene());
+        window.setResizable(false);
         window.show();
     }
     
@@ -81,10 +83,10 @@ public class TasataUi extends Application implements EventListener {
             case NEXT_LEVEL:
                 break;
             case LEVEL_LOADED:
-                levelLoaded();
+                prepareAndLauchLevel();
                 break;
             case TILE_CHANGE:
-                gameScene.updateTiles((ArrayList<Tile>) attribute);
+                gameScene.updateTileValues((ArrayList<Tile>) attribute);
                 break;
             case LEVEL_SOLVED:
                 gameScene.levelSolved();

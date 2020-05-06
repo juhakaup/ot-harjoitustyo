@@ -33,11 +33,11 @@ public class GameScene {
     private String[][] connections;
     private HashMap<String, Button> uiTiles;
     private final List<EventListener> listeners = new ArrayList<>();
-    private Group gameTiles;
+    private final Group gameTiles;
     private final GridPane titleSegment;
     private final BorderPane root;
     private final Scene scene;
-    private VBox popMenu;
+    private final VBox popMenu;
     private final Text movesText;
     private final Button resetLevel;
     private final Button displayMenu;
@@ -89,10 +89,6 @@ public class GameScene {
         displayMenu.setOnAction(e-> {
             notifyListeners(GameEvent.MENU_SCENE, "");
         });
-//        displayMenu.setOnAction(e -> {
-//            popMenu.setVisible(!popMenu.visibleProperty().getValue());
-//            gameTiles.setDisable(!gameTiles.disableProperty().get());
-//        });
         
         HBox controls = new HBox();
         controls.getChildren().add(resetLevel);
@@ -179,7 +175,7 @@ public class GameScene {
             button.setShape(createHexagon());
             gameTiles.getChildren().add(button);
         }
-        updateTilePositions();
+        setTilePositions();
     }
 
     private Polygon createHexagon() {
@@ -190,14 +186,13 @@ public class GameScene {
         return hexagon;
     }
 
-    public void updateTiles(ArrayList<Tile> tiles) {
+    public void updateTileValues(ArrayList<Tile> tiles) {
         for (Tile tile : tiles) {
             uiTiles.get(tile.getId()).setText(Integer.toString(tile.getValue()));
         }
-        updateTilePositions();
     }
 
-    private void updateTilePositions() {
+    private void setTilePositions() {
         if (uiTiles.size() < 2) {
             return;
         }
@@ -209,11 +204,8 @@ public class GameScene {
 
             double originX = tile1.getTranslateX();
             double originY = tile1.getTranslateY();
-            
-
             double newPosX = originX + DIR[direction][0] * TILEMAXSIZE;
             double newPosY = originY + DIR[direction][1] * TILEMAXSIZE;
-
             tile2.setTranslateX(newPosX);
             tile2.setTranslateY(newPosY);
 
@@ -223,9 +215,7 @@ public class GameScene {
                     (tile2.getTranslateX() + 0.5 * TILEMAXSIZE) - DIR[direction][0] * TILEMAXSIZE * 0.45,
                     (tile2.getTranslateY() + 0.5 * TILEMAXSIZE) - DIR[direction][1] * TILEMAXSIZE * 0.45
             );
-            
-            line.setTranslateX(-LINEWIDTH);
-            
+            line.setTranslateX(-LINEWIDTH);            
             line.setStrokeWidth(LINEWIDTH);
             line.setStroke(Color.DARKGRAY);
             
