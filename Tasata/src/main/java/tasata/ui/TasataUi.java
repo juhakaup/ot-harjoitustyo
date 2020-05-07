@@ -42,7 +42,7 @@ public class TasataUi extends Application implements EventListener {
         startingPack = properties.getProperty("startingPack");
         
         levelDao = new FileLevelDao(levelFile);
-        packDao = new FilePackDao(packFile, progressFile, levelDao);
+        packDao = new FilePackDao(packFile, progressFile);
     }
     
     @Override
@@ -102,6 +102,11 @@ public class TasataUi extends Application implements EventListener {
     
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    @Override
+    public void stop() throws Exception {
+        super.stop();
     }
     
 }

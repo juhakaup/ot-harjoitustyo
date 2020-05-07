@@ -2,7 +2,7 @@ package tasata.domain;
 
 import java.util.ArrayList;
 import java.util.Map;
-import tasata.dao.LevelDao;
+//import tasata.dao.LevelDao;
 
 /**
  * This class handles a group of levels, unlocking and storing state of 
@@ -16,11 +16,6 @@ public class Pack {
     private double goldLevel;
     private double silverLevel;
     private double bronzeLevel;
-    private transient final LevelDao levelDao;
-
-    public Pack(LevelDao levelDao) {
-        this.levelDao = levelDao;
-    }
 
     public String getId() {
         return this.packId;
@@ -50,15 +45,15 @@ public class Pack {
         }
         return null;
     }
-
-    public ArrayList<String[]> getLevels() {
-        ArrayList<String[]> list = new ArrayList<>();
+    
+    public ArrayList<String> getLevels() {
+        ArrayList<String> list = new ArrayList<>();
         for (String key : this.levels.keySet()) {
-            list.add(new String[]{key, key + ": " + levelDao.findLevelById(key).getDescription()});
+            list.add(key);
         }
         return list;
     }
-    
+     
     public String getNextLevel() {
         for (String level : levels.keySet()) {
             if (levels.get(level) == State.AVAILABLE) {

@@ -18,7 +18,7 @@ public class GameTest {
     @Before
     public void setUp() throws Exception {
         LevelDao fld = new FileLevelDao("assets/Levels.json");
-        PackDao fpd = new FilePackDao("assets/Packs.json", "assets/Progress.json", fld);
+        PackDao fpd = new FilePackDao("assets/Packs.json", "assets/Progress.json");
         game = new Game(fld, fpd);
         game.loadLevelPack("TestPack");
     }

@@ -32,7 +32,11 @@ public class Game implements EventListener {
     }
     
     public ArrayList<String[]> getCurrentLevels() {
-        return currentPack.getLevels();
+        ArrayList<String[]> list = new ArrayList<>();
+        for (String id : currentPack.getLevels()) {
+            list.add(new String[]{id, levelDao.findLevelById(id).getDescription()});
+        }
+        return list;
     }
 
     public Map<String, State> getPackState() {

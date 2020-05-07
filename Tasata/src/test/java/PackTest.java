@@ -18,8 +18,7 @@ public class PackTest {
 
     @Test
     public void unlockIsWorkingProperly() throws Exception {
-        LevelDao levelDao = new FileLevelDao("assets/Levels.json");
-        PackDao packDao = new FilePackDao("assets/Packs.json", "assets/Progress.json", levelDao);
+        PackDao packDao = new FilePackDao("assets/Packs.json", "assets/Progress.json");
         Pack pack = packDao.findPackById("TestPack");
         
         Map<String, State> states = pack.getPackState();

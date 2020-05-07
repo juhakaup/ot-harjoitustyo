@@ -18,13 +18,13 @@ public class FilePackDao implements PackDao {
 
     private final File progressFile;
     private final Pack[] packs;
-    private final LevelDao levels;
+//    private final LevelDao levels;
     private static FileWriter fileWriter;
     private final String packFileLocation;
     private final String progressFileLocation;
 
-    public FilePackDao(String packFileLocation, String progressFileLocation, LevelDao levels) {
-        this.levels = levels;
+    public FilePackDao(String packFileLocation, String progressFileLocation) {
+//        this.levels = levels;
         this.packFileLocation = packFileLocation;
         this.progressFileLocation = progressFileLocation;
 
@@ -60,10 +60,7 @@ public class FilePackDao implements PackDao {
         try {
             reader = getReader(file);
             JsonReader jsonReader = new JsonReader(reader);
-
             GsonBuilder builder = new GsonBuilder();
-            builder.registerTypeAdapter(Pack.class, new PackInstanceCreator(levels));
-
             Gson customGson = builder.create();
 
             return customGson.fromJson(jsonReader, Pack[].class);
