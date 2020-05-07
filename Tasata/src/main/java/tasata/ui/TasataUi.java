@@ -92,7 +92,11 @@ public class TasataUi extends Application implements EventListener {
                 menuScene.updateLevelList((Map<String, State>) attribute);
                 break;
             case MOVE_COUNT_UPDATED:
-                gameScene.setMoves(((String[]) attribute)[0]);
+                if (attribute instanceof String[]) {
+                    String[] att = (String[]) attribute;
+                    gameScene.setMoves(att[0]);
+                    gameScene.setLevelState(State.valueOf(att[1]));
+                }
                 break;
             default:
                 break;

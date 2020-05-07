@@ -22,6 +22,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import tasata.domain.GameEvent;
+import tasata.domain.State;
 
 public class GameScene {
 
@@ -44,6 +45,8 @@ public class GameScene {
     private Button popReset;
     private Button enablePopMenu;
     private Button popNext;
+    private Text popScoreText;
+    private State state = State.AVAILABLE;
     private final int WIDTH;
     private final int HEIGHT;
 
@@ -64,7 +67,7 @@ public class GameScene {
         titleSegment.setMinSize(width, 30);
         titleSegment.setHgap(20);
         titleSegment.setAlignment(Pos.CENTER);
-        Text titleText = new Text(10, 90, "TaSaTa");
+        Text titleText = new Text(10, 90, "٭TaSaTa٭");
         movesText = new Text(10, 90, "0");
         titleSegment.add(titleText, 0, 0);
         titleSegment.add(movesText, 2, 0);
@@ -112,9 +115,13 @@ public class GameScene {
         this.movesText.setText(moves);
     }
     
+    public void setLevelState(State state) {
+        this.state = state;
+    }
+    
     public void levelSolved() {
-        popMenu.setVisible(true);
-        
+        setScoreText();
+        popMenu.setVisible(true); 
     }
 
     private VBox createPopupMenu() {
@@ -144,20 +151,36 @@ public class GameScene {
         buttons.setAlignment(Pos.CENTER);
 
         VBox background = new VBox();
-        background.setMaxWidth(WIDTH * 0.7);
-        background.setMaxHeight(WIDTH * .25);
-        background.setStyle("-fx-background-color: rgba(0, 102, 204, 0.5); -fx-background-radius: 10;");
+        background.setMaxWidth(WIDTH * 0.65);
+        background.setMaxHeight(WIDTH * 0.3);
+        background.setStyle("-fx-background-color: rgba(0, 102, 204, 0.7); -fx-background-radius: 10;");
         background.setAlignment(Pos.CENTER);
         
+        popScoreText = new Text();
+        popScoreText.setTranslateY(-5);
         Text title = new Text("Level Solved!");
         title.setStyle("-fx-font: 22px Tahoma");
         title.setFill(Color.WHITESMOKE);
         title.setTranslateY(-10);
 
+        background.getChildren().add(popScoreText);
         background.getChildren().add(title);
         background.getChildren().add(buttons);
 
         return background;
+    }
+    
+    public void setScoreText() {
+        if (this.state == State.GOLD) {
+            popScoreText.setText("٭٭٭");
+            popScoreText.setStyle("-fx-font: 42px Tahoma; -fx-fill: radial-gradient(center 50% -40%, radius 180%, YELLOW 46%, GOLD 51%);");
+        } else if (this.state == State.SILVER) {
+            popScoreText.setText("٭٭");
+            popScoreText.setStyle("-fx-font: 42px Tahoma; -fx-fill: radial-gradient(center 50% -40%, radius 180%, WHITESMOKE 45%, SILVER 70%);");
+        } else if (this.state == State.BRONZE ) {
+            popScoreText.setText("٭");
+            popScoreText.setStyle("-fx-font: 42px Tahoma; -fx-fill: radial-gradient(center 50% -40%, radius 180%, WHEAT 46%, GOLDENROD 51%)");
+        }
     }
     
     public void createTiles(Map<String, Integer> tiles) {
