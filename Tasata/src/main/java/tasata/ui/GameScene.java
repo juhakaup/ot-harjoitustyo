@@ -39,9 +39,10 @@ public class GameScene {
     private final BorderPane root;
     private final Scene scene;
     private final VBox popMenu;
-    private final Text movesText;
+    private final Text numberOfMovesText;
     private final Button resetLevel;
     private final Button displayMenu;
+    private final HBox controls;
     private Button popReset;
     private Button enablePopMenu;
     private Button popNext;
@@ -67,12 +68,12 @@ public class GameScene {
         titleSegment.setMinSize(width, 30);
         titleSegment.setHgap(20);
         titleSegment.setAlignment(Pos.CENTER);
-        Text titleText = new Text(10, 90, "٭TaSaTa٭");
-        movesText = new Text(10, 90, "0");
-        titleSegment.add(titleText, 0, 0);
-        titleSegment.add(movesText, 2, 0);
-        GridPane.setHalignment(titleText, HPos.LEFT);
-        GridPane.setHalignment(movesText, HPos.RIGHT);
+        Text movesTitle = new Text(10, 90, "Moves");
+        numberOfMovesText = new Text(10, 90, "0");
+        titleSegment.add(movesTitle, 0, 0);
+        titleSegment.add(numberOfMovesText, 2, 0);
+        GridPane.setHalignment(movesTitle, HPos.LEFT);
+        GridPane.setHalignment(numberOfMovesText, HPos.RIGHT);
 
         root = new BorderPane();
         scene = new Scene(root, width, height);
@@ -93,7 +94,7 @@ public class GameScene {
             notifyListeners(GameEvent.MENU_SCENE, "");
         });
         
-        HBox controls = new HBox();
+        controls = new HBox();
         controls.getChildren().add(resetLevel);
         controls.getChildren().add(displayMenu);
 
@@ -112,7 +113,7 @@ public class GameScene {
     }
     
     public void setMoves(String moves) {
-        this.movesText.setText(moves);
+        this.numberOfMovesText.setText(moves);
     }
     
     public void setLevelState(State state) {
@@ -121,28 +122,32 @@ public class GameScene {
     
     public void levelSolved() {
         setScoreText();
-        popMenu.setVisible(true); 
+        switchMenuFocus();
+    }
+    
+    private void switchMenuFocus() {
+        popMenu.setVisible(!popMenu.visibleProperty().getValue());
+        gameTiles.setDisable(!gameTiles.disableProperty().getValue());
+        controls.setDisable(!controls.disableProperty().getValue());
     }
 
     private VBox createPopupMenu() {
         popReset = new Button("Retry");
         popReset.setOnAction(e ->{
             notifyListeners(GameEvent.RESET_LEVEL, "");
-            popMenu.setVisible(false);
-            gameTiles.setDisable(false);
+            switchMenuFocus();
         });
         
         enablePopMenu = new Button("Back to menu");
         enablePopMenu.setOnAction(e-> {
             notifyListeners(GameEvent.MENU_SCENE, "");
-            popMenu.setVisible(false);
-            gameTiles.setDisable(false);
+            switchMenuFocus();
         });
         
         popNext = new Button("Next");
-        popNext.setDisable(true);
         popNext.setOnAction(e -> {
-            System.out.println("next level please");
+            notifyListeners(GameEvent.NEXT_LEVEL, null);
+            switchMenuFocus();
         });
 
         HBox buttons = new HBox();

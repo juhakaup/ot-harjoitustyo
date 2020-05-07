@@ -12,10 +12,8 @@ import tasata.domain.GameEvent;
 import tasata.domain.State;
 
 public class TasataUi extends Application implements EventListener {
-    
     private static int width;
     private static int height;
-    
     private Stage window;
     private Game game;
     private GameScene gameScene;
@@ -76,8 +74,6 @@ public class TasataUi extends Application implements EventListener {
         switch (event) {
             case MENU_SCENE:
                 window.setScene(menuScene.getScene());
-                break;
-            case NEXT_LEVEL:
                 break;
             case LEVEL_LOADED:
                 prepareAndLauchLevel();

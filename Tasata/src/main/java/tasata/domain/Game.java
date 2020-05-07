@@ -186,6 +186,14 @@ public class Game implements EventListener {
                     loadLevel((String) args);
                 }
                 break;
+            case NEXT_LEVEL:
+                String nextLevel = currentPack.getNextLevel();
+                if (nextLevel != null) {
+                    loadLevel(nextLevel);
+                } else {
+                    notifyListeners(GameEvent.MENU_SCENE, null);
+                }
+                break;
             default:
                 break;
         }

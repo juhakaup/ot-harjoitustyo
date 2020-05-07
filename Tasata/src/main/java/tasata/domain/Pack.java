@@ -58,6 +58,15 @@ public class Pack {
         }
         return list;
     }
+    
+    public String getNextLevel() {
+        for (String level : levels.keySet()) {
+            if (levels.get(level) == State.AVAILABLE) {
+                return level;
+            }
+        }
+        return null;
+    }
 
     public Map<String, State> getPackState() {
         return this.levels;
