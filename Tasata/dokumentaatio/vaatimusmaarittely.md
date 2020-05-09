@@ -10,22 +10,35 @@ Sovellus pitää kirjaa pelaajan edistymisestä sekä siirtojen määrästä kut
 Loppukäyttäjän näkökulmasta sovelluksessa on ainoastaan yksi käyttäjärooli, eli peruskäyttäjä. 
 Myöhemmin on mahdollista lisätä sovellukseen ns. developer- käyttäjärooli, jolloin sovellusta käyttää myös pelin sisällön tuottamiseen.
 
+## Pelinäkymän luonnos
+
+Pelinäkymässä elementtien arvo vaikuttaa niiden kokoon.
+
+![alt text](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/luonnos.jpg)
+
 ## Sovelluksen toiminnallisuudet
 
 ### Perusversio
 
 #### Toiminnot valikossa
-- Käyttäjä näkee mitkä kentät ovat pelattavissa (tehty)
-- käyttäjä näkee mitkä kentät hän on läpäissyt
-- käyttäjä voi valita jonkin pelattavissa olevan kentän ja siirtyä pelaamaan sitä (tehty)
-- käyttäjä voi pelata jo läpäisemäänsä kenttää (tehty)
-- käyttäjä voi palauttaa pelin alkutilaan
+- Käyttäjä näkee mitkä kentät ovat pelattavissa 
+  - lukitutut kentät näkyvät haaleampina
+- käyttäjä näkee mitkä kentät hän on läpäissyt 
+  - Läpäistyt kentät näytetään eri värillä
+- Käyttäjä näkee kentän pisteytyksen 
+  - Kentän pisteytys näkyy kentän väristä
+- käyttäjä voi valita jonkin pelattavissa olevan kentän ja siirtyä pelaamaan sitä 
+- käyttäjä voi pelata jo läpäisemäänsä kenttää 
 
 #### Toiminnot pelissä
-- käyttäjä voi palata valikkoon (tehty)
-- käyttäjä voi aloittaa kentän alusta (tehty)
-- käyttäjä voi läpäistä kentän (tehty)
-- käyttäjä voi valita siirtyä suoraan seuraavaan kenttään
+- käyttäjä voi palata valikkoon 
+  - Käyttäjä voi palata kesken pelin takaisin valikkoon
+- käyttäjä voi aloittaa kentän alusta 
+  - Käyttäjä voi resetoida kentän kesken pelin
+- käyttäjä voi läpäistä kentän
+  - Kentän ratkettua, peli näyttää tuloksen ja valikon
+- käyttäjä voi valita siirtymisen suoraan seuraavaan kenttään 
+  - Kentän läpäisemisen jälkeen pelaaja voi siirtyä seuraavaan kenttään käymättä valikossa
 
 ### Jatkokehitysideoita
 
