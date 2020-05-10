@@ -10,12 +10,12 @@
 | 29.3. | 2    | Ui:n testailua |
 | 30.3. | 1    | LevelSet luokan hahmottelua |
 | 31.3. | 6    | Käyttöliittymän rakentelua, peruselementtien paikat, vähän toiminnallisuutta |
-| 2.4.  | 2    | Käyttöliittymän ja logiikkaluokkien siistimistä |
-| 3.4.  | 6    | Kenttien lataaminen tiedostosta ja siihen liittyvää refaktorointia |
-| 4.4.  | 3    | Uin jakaminen luokkiin, observer-malli eventeille |
-| 5.4.  | 3    | Ui luokkien viilaamista |
-| 7.4.  | 4    | Testejä pelilogiikalle ja kentälle, checkstyle |
-| 7.4.  | 1    | Menuscene |
+|  2.4. | 2    | Käyttöliittymän ja logiikkaluokkien siistimistä |
+|  3.4. | 6    | Kenttien lataaminen tiedostosta ja siihen liittyvää refaktorointia |
+|  4.4. | 3    | Uin jakaminen luokkiin, observer-malli eventeille |
+|  5.4. | 3    | Ui luokkien viilaamista |
+|  7.4. | 4    | Testejä pelilogiikalle ja kentälle, checkstyle |
+|  7.4. | 1    | Menuscene |
 | 10.4. | 3    | Menuscenen viilausta, kenttäsetit, JavaFX eventtien poistaminen - tilalle oma eventListener |
 | 13.4. | 2    | Pack-luokan iterointia, kentäsettien lataaminen tiedostosta |
 | 14.4. | 4    | Kenttäsetit pelilogiikkaan ja käyttöliittymään, testien päivitys |
@@ -27,4 +27,7 @@
 | 21.4. | 3    | Scoretukseen liittyvää toiminnallisuutta. Pientä refaktorointia |
 | 26.4. | 2    | Värit kenttälistaukseen tason scoren mukaan |
 | 28.4. | 1    | Scoren toiminta pelin sisällä |
-| yht   | 66   | | 
+|  6.5. | 3    | Refaktorointia, riippuvuuksien poistoa, korjauksia |
+|  7.5. | 2    | Score näkymään popupiin |
+| 10.5. | 5    | Lataamisen korjailua, koodin muotoilu | 
+| yht   | 76   | | 
