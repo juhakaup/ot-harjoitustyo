@@ -36,7 +36,8 @@ public class Level {
     }
     
     /**
-     * Creates the connections between tiles in a level
+     * Creates the connections between tiles of a level
+     * 
      * @param connections array of vectors representing the connections between the tiles
      * @return true if connections were build, false otherwise
      */
@@ -67,6 +68,12 @@ public class Level {
         return this.tileSet;
     }
     
+    /**
+     * Generates a map of tile id's and values
+     * 
+     * @return Map of string and integer pairs representing tile id and value
+     */
+    
     public Map<String, Integer> getValues() {
         Map<String, Integer> values = new HashMap<>();
         for (Tile tile : tileSet) {
@@ -74,6 +81,13 @@ public class Level {
         }
         return values;
     }
+    
+    /**
+     * Return a tile corresponding to a given id
+     * 
+     * @param id tile id
+     * @return Tile if id was found, null otherwise
+     */
     
     public Tile getTile(String id) {
         for (Tile tile : tileSet) {

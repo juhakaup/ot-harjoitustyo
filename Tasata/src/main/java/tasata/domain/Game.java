@@ -31,6 +31,13 @@ public class Game implements EventListener {
         return this.currentLevel;
     }
     
+    /**
+     * Returns a list of string arrays containing the id and description of the
+     * currently loaded pack
+     * 
+     * @return ArrayList of string arrays with id and description
+     */
+    
     public ArrayList<String[]> getCurrentLevels() {
         ArrayList<String[]> list = new ArrayList<>();
         for (String id : currentPack.getLevels()) {
@@ -131,8 +138,7 @@ public class Game implements EventListener {
     /**
      * Performs a tile press on given tile updating the level state 
      * 
-     * @param id
-     * @return 
+     * @param id of the tile
      */
 
     public void tilePressed(String id) {

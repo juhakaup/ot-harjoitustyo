@@ -12,7 +12,7 @@ import tasata.domain.Pack;
 
 /**
  * Handles loading packs from a file
- * 
+ *
  */
 public class FilePackDao implements PackDao {
 
@@ -29,12 +29,12 @@ public class FilePackDao implements PackDao {
         protocol = this.getClass().getResource("").getProtocol();
 
         if (protocol.equals("jar")) {
-                packs = readFile(packFileLocation);
-            } else if (protocol.equals("file")) {
-                File packFile = new File(packFileLocation);
-                packs = readFile(packFile);
-            }
-        
+            packs = readFile(packFileLocation);
+        } else if (protocol.equals("file")) {
+            File packFile = new File(packFileLocation);
+            packs = readFile(packFile);
+        }
+
         progressFile = new File(progressFileLocation);
         if (progressFile.exists()) {
             Pack[] packProgress = readFile(progressFile);
@@ -64,9 +64,9 @@ public class FilePackDao implements PackDao {
         try {
             reader = getReader(file);
             JsonReader jsonReader = new JsonReader(reader);
-            
-            Gson GSON = new Gson();
-            Pack[] packs = GSON.fromJson(jsonReader, Pack[].class);
+
+            Gson gson = new Gson();
+            Pack[] packs = gson.fromJson(jsonReader, Pack[].class);
             return packs;
 
         } catch (Exception e) {

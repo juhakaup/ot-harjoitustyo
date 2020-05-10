@@ -2,12 +2,12 @@ package tasata.domain;
 
 import java.util.ArrayList;
 import java.util.Map;
-//import tasata.dao.LevelDao;
 
 /**
  * This class handles a group of levels, unlocking and storing state of 
  * each level in the pack
  */
+
 public class Pack {
 
     private String packId;
@@ -33,11 +33,25 @@ public class Pack {
         return this.bronzeLevel;
     }
     
+    /**
+     * Changes the state of given level
+     * 
+     * @param id level to be modified
+     * @param state new state for the level
+     */
+    
     public void setLevelState(String id, State state) {
         if (levels.containsKey(id)) {
             levels.put(id, state);
         }
     }
+    
+    /**
+     * Return the current state of a level
+     * 
+     * @param id level id
+     * @return current state of the state, null if level not found
+     */
     
     public State getLevelState(String id) {
         if (levels.containsKey(id)) {
@@ -46,6 +60,12 @@ public class Pack {
         return null;
     }
     
+    /**
+     * Returns a list of level id's in the pack
+     * 
+     * @return list of level id's
+     */
+    
     public ArrayList<String> getLevels() {
         ArrayList<String> list = new ArrayList<>();
         for (String key : this.levels.keySet()) {
@@ -53,7 +73,13 @@ public class Pack {
         }
         return list;
     }
-     
+    
+    /**
+     * Return the next available level in the pack
+     * 
+     * @return level if next level is available, null otherwise
+     */
+    
     public String getNextLevel() {
         for (String level : levels.keySet()) {
             if (levels.get(level) == State.AVAILABLE) {
@@ -69,6 +95,7 @@ public class Pack {
 
     /**
      * Sets the status of the levels associated to given level to available
+     * 
      * @param id id of the level that was completed
      */
     
