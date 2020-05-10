@@ -15,7 +15,7 @@
     {
         "packId":"StarterPack",
         "goldLevel": 1.3,
-        "silverLevel": 1.8,
+        "silverLevel": 2,
         "bronzeLevel": 10,
         "levels":{
             "A01":"AVAILABLE",

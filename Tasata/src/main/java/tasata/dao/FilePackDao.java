@@ -17,19 +17,24 @@ import tasata.domain.Pack;
 public class FilePackDao implements PackDao {
 
     private final File progressFile;
-    private final Pack[] packs;
-//    private final LevelDao levels;
+    private Pack[] packs = null;
     private static FileWriter fileWriter;
     private final String packFileLocation;
     private final String progressFileLocation;
+    private String protocol;
 
     public FilePackDao(String packFileLocation, String progressFileLocation) {
-//        this.levels = levels;
         this.packFileLocation = packFileLocation;
         this.progressFileLocation = progressFileLocation;
+        protocol = this.getClass().getResource("").getProtocol();
 
-        packs = readFile(packFileLocation);
-
+        if (protocol.equals("jar")) {
+                packs = readFile(packFileLocation);
+            } else if (protocol.equals("file")) {
+                File packFile = new File(packFileLocation);
+                packs = readFile(packFile);
+            }
+        
         progressFile = new File(progressFileLocation);
         if (progressFile.exists()) {
             Pack[] packProgress = readFile(progressFile);
@@ -46,7 +51,6 @@ public class FilePackDao implements PackDao {
 
     @Override
     public Pack findPackById(String id) {
-
         for (Pack pack : packs) {
             if (pack.getId().equals(id)) {
                 return pack;
@@ -60,13 +64,13 @@ public class FilePackDao implements PackDao {
         try {
             reader = getReader(file);
             JsonReader jsonReader = new JsonReader(reader);
-            GsonBuilder builder = new GsonBuilder();
-            Gson customGson = builder.create();
-
-            return customGson.fromJson(jsonReader, Pack[].class);
+            
+            Gson GSON = new Gson();
+            Pack[] packs = GSON.fromJson(jsonReader, Pack[].class);
+            return packs;
 
         } catch (Exception e) {
-            System.out.println("error in file level dao");
+            System.out.println("error in file pack dao");
         }
         return null;
     }

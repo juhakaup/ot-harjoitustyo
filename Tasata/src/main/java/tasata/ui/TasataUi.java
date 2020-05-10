@@ -1,5 +1,6 @@
 package tasata.ui;
 
+import java.io.FileInputStream;
 import java.util.Map;
 import java.util.Properties;
 import javafx.application.Application;
@@ -30,10 +31,16 @@ public class TasataUi extends Application implements EventListener {
     
     @Override
     public void init() throws Exception {
+        
         Properties properties = new Properties();
-
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        properties.load(classLoader.getResourceAsStream("config.properties"));       
+        String protocol = this.getClass().getResource("").getProtocol();
+        if (protocol.equals("jar")) {
+            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+            properties.load(classLoader.getResourceAsStream("config.properties"));       
+        } else if (protocol.equals("file")) {
+            properties.load(new FileInputStream("config.properties"));       
+        }
+        
         String levelFile = properties.getProperty("levelFile");
         String packFile = properties.getProperty("packFile");
         String progressFile = properties.getProperty("progressFile");
