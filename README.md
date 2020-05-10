@@ -13,6 +13,7 @@ Tasata on pulmanratkaisupeli, jossa pelaajan tarkoituksena on saada kaikkiin ken
   [Työaikakirjanpito](https://github.com/juhakaup/ot-harjoitustyo/blob/master/Tasata/dokumentaatio/tuntikirjanpito.md)
 
 ## Releaset
+[Loppupalautus](https://github.com/juhakaup/ot-harjoitustyo/releases/tag/0.6)
 
 [Viikko 6](https://github.com/juhakaup/ot-harjoitustyo/releases/tag/0.5)
 
